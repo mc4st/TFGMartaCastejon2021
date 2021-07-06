@@ -4,7 +4,7 @@ Universidad Rey Juan Carlos
 
 Grado de Ingeniería en Sistemas Audiovisuales y Multimedia 2020/2021
 
-AUTORA
+AUTORA:\n
 Marta Castejón Cachero
 
 TUTORA
