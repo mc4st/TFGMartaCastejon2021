@@ -4,11 +4,11 @@ Universidad Rey Juan Carlos
 
 Grado de Ingeniería en Sistemas Audiovisuales y Multimedia 2020/2021
 
-AUTORA:\n
+AUTORA: 
 Marta Castejón Cachero
 
-TUTORA
+TUTORA: 
 Rebeca Goya Esteban
 
-DETALLES
-El código está implementado en Python (versión 3.8.8). Para más información, consultar la memoria del proyecto en formato pdf.
+DETALLES: 
+El código está implementado en Python (versión 3.8.8). Para más información, consultar la memoria del proyecto en formato pdf realizada en LaTeX.
