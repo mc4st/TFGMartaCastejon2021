@@ -1,0 +1,1588 @@
+\documentclass[a4paper, 12pt]{book}
+%\usepackage[T1]{fontenc}
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{4}
+\usepackage[a4paper, left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm]{geometry}
+\usepackage{times}
+\usepackage[latin1]{inputenc}
+\usepackage[spanish]{babel} 
+\usepackage{url}
+\usepackage{multirow, array} 
+\usepackage{graphicx}
+\usepackage{float}  %% 
+\usepackage[nottoc, notlot, notlof, notindex]{tocbibind}
+\usepackage{latexsym}  %% Logo LaTeX
+\usepackage{enumerate} 
+\usepackage{amssymb,amsmath,amsfonts}
+\usepackage{appendix}
+\usepackage{amsmath}
+\usepackage{afterpage}
+
+\newcommand\blankpage{%
+	\null
+	\thispagestyle{empty}%
+	\addtocounter{page}{-1}%
+	\newpage}
+
+\title{Memoria Trabajo de Fin de Grado}
+\author{Marta Castejón Cachero}
+
+\renewcommand{\baselinestretch}{1.5}  %% Interlineado
+
+\begin{document}
+
+\renewcommand{\refname}{Bibliografía}  %% Renombrando
+\renewcommand{\appendixname}{Apéndice}
+\renewcommand{\tablename}{Tabla} %Cambia la palabra "Cuadro" por "Tabla"
+\renewcommand{\appendixtocname}{Anexos}
+\renewcommand{\appendixpagename}{Anexos}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PORTADA
+
+\begin{titlepage}
+\begin{center}
+
+
+\begin{figure}
+	\centering
+\includegraphics[width=0.3\textwidth]{./img/logoURJC}
+\end{figure}
+\vspace*{0.1in}
+
+
+
+\begin{center}
+\large
+ESCUELA TÉCNICA SUPERIOR DE INGENIERÍA DE TELECOMUNICACIÓN
+
+\vspace*{0.15in}
+GRADO EN INGENIERÍA EN SISTEMAS AUDIOVISUALES Y MULTIMEDIA\\
+\vspace*{0.8in}
+
+
+{\large \bf TRABAJO FIN DE GRADO}\\
+\end{center}
+\vspace*{0.2in}
+\vspace*{0.2in}
+\vspace*{0.2in}
+{\large
+{Registro de señales de electroencefalograma mediante BrainVision Recorder: manual de usuario, software de lectura y procesado en Python} \\
+}
+\vspace*{1.5in}
+
+\vspace*{0.1in}
+\end{center}
+
+\begin{center}
+{\large
+Autor: Marta Castejón Cachero \\[0.15cm]
+Tutor: Rebeca Goya Esteban \\[0.15cm]}
+\end{center}
+
+\vspace*{0.1in}
+\vspace*{0.1in}
+
+\begin{center}Curso académico 2020/2021\end{center}
+
+
+
+\end{titlepage}
+
+\newpage
+\mbox{}
+\thispagestyle{empty} % para que no se numere esta pagina
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Para firmar
+%\clearpage
+%\pagenumbering{gobble}
+%\chapter*{}
+%
+%\vspace{-4cm}
+%\begin{center}
+%\LARGE
+%\textbf{Trabajo Fin de Grado}
+%
+%\vspace{1cm}
+%\large
+%Registro de Señales de Electroencefalograma mediante BrainVision Recorder: Manual de usuario, software de lectura y procesado en Python.
+%
+%\vspace{1cm}
+%\large
+%\textbf{Autor :} Marta Castejón Cachero \\
+%\textbf{Tutor :} Rebeca Goya Esteban
+%
+%\end{center}
+%
+%\vspace{1cm}
+%\hspace{-1.05cm}
+%La defensa del presente Proyecto Fin de Carrera se realizó el día \qquad$\;\,$ de \qquad\qquad\qquad de 2019, siendo calificada por el siguiente tribunal:
+%
+%
+%\vspace{1.0cm}
+%\textbf{Presidente:}
+%
+%\vspace{1.0cm}
+%\textbf{Secretario:}
+%
+%\vspace{1.0cm}
+%\textbf{Vocal:}
+%
+%
+%\vspace{1.0cm}
+%y habiendo obtenido la siguiente calificación:
+%
+%\vspace{1cm}
+%\textbf{Calificación:}
+%
+%
+%\vspace{3.0cm}
+%\begin{flushright}
+%Fuenlabrada, a \qquad$\;\,$ de \qquad\qquad\qquad de 2019
+%\end{flushright}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Dedicatoria
+
+\chapter*{}
+\pagenumbering{Roman} % para comenzar la numeración de paginas en números romanos
+\begin{flushright}
+\textit{'Comprender las cosas que nos rodean es la mejor preparación para comprender las cosas que hay más allá'}
+
+Hipatia de Alejandría
+
+\end{flushright}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Agradecimientos
+
+\chapter*{Agradecimientos}
+%\addcontentsline{toc}{chapter}{Agradecimientos} % si queremos que aparezca en el índice
+\markboth{AGRADECIMIENTOS}{AGRADECIMIENTOS} % encabezado 
+Este trabajo de fin de grado pone fin a una etapa muy importante para cualquier estudiante: la universidad.
+Son años difíciles en los que he experimentado distintas emociones y vivencias, y todas ellas me han ayudado a construir la persona que soy hoy en día.
+
+En primer lugar, quiero agradecer a Rebeca toda ayuda, energía y ánimos que recibía en cada e-mail o videollamada por su parte, y por supuesto, su paciencia infinita conmigo.
+
+También agradecer a todas las personas que me he encontrado en el camino académico que han aportado algo en mí, tanto compañeros como profesores, pero en especial a compañeros que tengo la suerte de llamar amigos: Cristina, Manuel, Natalia, Christian y Fernando; hemos pasado horas infinitas estudiando, riendo, llorando, tomando cafés y cervezas para ahogar los suspensos, pero sobre todo, para celebrar los aprobados.
+
+A mis amigos de siempre, por soportar mis $``$no puedo, tengo que estudiar$"$ durante años, pero que siempre han estado y estarán apoyando todas mis decisiones y acompañándome en cada una de ellas.
+
+A mi familia, por facilitarme los largos días de estudio y trabajo, por darme un empujón cuando lo he necesitado y sobretodo, por confiar en mí y apoyar todas mis decisiones.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Resumen
+
+\chapter*{Resumen}
+%\addcontentsline{toc}{chapter}{Resumen} % si queremos que aparezca en el índice
+\markboth{RESUMEN}{RESUMEN} % encabezado
+
+La Electroencefalografía es un método utilizado para el registro de la actividad eléctrica cerebral a través de electrodos situados en el cuero cabelludo de manera no invasiva en el paciente. Estos electrodos registrarán variaciones de potencial que serán utilizados por personal cualificado ya sea para diagnóstico médico o investigación.
+
+En este Trabajo de Fin de Grado (TFG) se emplean registros de señales electroencefalográficas adquiridas en la Universidad Rey Juan Carlos gracias a la colaboración del alumnado, mediante un casco de electrodos secos ($actiCAP$ $Xpress$) y un software dedicado al registro de actividad eléctrica cerebral creado en el contexto de las aplicaciones no médicas ($BrainVision$ $Recorder$) durante un estado de calma.
+
+Uno de los objetivo de este TFG ha sido la creación de un manual de usuario para el correcto manejo del software $BrainVision$ $Recorder$ y el análisis y procesado en python de la señales EEG para un posterior cálculo y representación de las potencias espectrales de dichas señales. 
+Esta guía ha sido elaborada a partir del manual de usuario original, generando una versión adaptada para los productos disponibles en el laboratorio de Ingeniería Biomédica. Para conseguir el siguiente objetivo, se han aplicado distintos tipos de filtrado (Paso Banda y Notch) para reducir las interferencias producidas por la red eléctrica y extraer el contenido espectral de la señal en un rango determinado a las señales recogidas utilizando el material descrito en el manual. Posteriormente, se aplica el Análisis de Componentes Independientes (ICA), el cual permite la eliminación de artefactos que, por ejemplo, estén asociadas al ruido y poder reconstruir la señal sin estas componentes. Por último, se calculará y se representará la densidad espectral de potencia de cada una de las bandas de frecuencia de la señal filtrada en un mapa topográfico cerebral.
+
+\clearpage
+En este proyecto, tras la realización del manual de usuario adaptado, se propone un marco y unas herramientas genéricas de procesamiento y visualización que pueden ser de utilidad para próximos trabajos en el ámbito del estudio de las señales de EEG, facilitando así la lectura y extracción de datos de dichas señales. 
+
+\chapter*{Summary}\label{key}
+\markboth{SUMMARY}{SUMMARY} 
+
+Electroencephalography is a method used to record electrical brain activity through electrodes placed on the patient's scalp in an no invasive technique. These electrodes will record potential variations that will be used by qualified professionals either for medical diagnosis or research.
+
+This TFG uses electroencephalographic signal recordings acquired at the Universidad Rey Juan Carlos in collaboration with the students, using a dry electrode cap ($actiCAP$ $Xpress$) and a software dedicated to the recording of brain electrical activity created in the context of non-medical applications ($BrainVision$ $Recorder$) during a state of calm.
+
+One of the purposes of this TFG has been the creation of a user manual for the correct use of the $BrainVision$ $Recorder$ software and the analysis and processing in Python of EEG signals for the correct calculation and representation of the spectral power of these signals. 
+This guide has been based on the original user manual, generating an adapted version for the products available in the Biomedical Engineering laboratory. To achieve the following objective, different types of filtering (Bandpass and Notch) have been applied to reduce the interference produced by the electrical network and to extract the spectral content of the signal in a given range from the signals collected using the material described in the manual. Following this, Independent Component Analysis (ICA) is applied, which allows the elimination of artefacts that, for example, are associated with noise and to reconstruct the signal without these components. Finally, the power spectral density of each of the frequency bands of the filtered signal will be calculated and represented in a topographical brain map.
+
+In this project, after the creation of the adapted user manual, a framework and generic processing and visualisation tools are proposed that can be useful for future work in the area of EEG signal study, facilitating the reading and extraction of data from these signals. 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ÍNDICES 
+%%%% Índice de contenidos
+\tableofcontents 
+%%%% Índice de figuras
+\addcontentsline{toc}{chapter}{Índice de figuras} % para que aparezca en el indice de contenidos
+\listoffigures % indice de figuras
+%%%% Índice de tablas
+\addcontentsline{toc}{chapter}{Índice de tablas} % para que aparezca en el indice de contenidos
+\renewcommand{\listtablename}{Índice de tablas}
+\listoftables % indice de tablas
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% INTRODUCCIÓN 
+\pagenumbering{arabic} 
+\cleardoublepage
+\chapter{Introducción}
+\label{sec:intro} 
+
+\section{Motivación}
+\label{sec:motivacio}
+
+Una de las formas con que el cerebro expresa su función es mediante la actividad eléctrica general. A día de hoy, el estudio de la fisiología y actividad eléctrica cerebral es muy importante para detección de un diagnostico temprano de algunos trastornos (epilepsia, patologías del sueño, ...), enfermedades (tumores cerebrales, alzheimer, encefalitis, accidentes cerebro-vasculares) o así como para la obtención de información para evaluar el comportamiento de un sujeto en un determinado estado (neuromarketing). Para llevar a cabo el estudio de dicha actividad, se recurre al uso de la técnica de evaluación fisiológica denominada electroencefalografía (EEG). Se trata de una técnica muy económica y además, es una técnica no invasiva para el sujeto ya que se realiza mediante electrodos fijados en el cuero cabelludo.
+
+El laboratorio de Ingeniería Biomédica de la ETSIT, posee un sistemas de grabación de señales EEG de uso complejo sin contacto previo o sin un manual de usuario adaptado a las necesidades del alumnado. El manual de usuario que se encuentra en la web del software, es un manual genérico que contempla distintos tipos de equipamiento y sistemas de grabación de diferentes tipos de señales, por lo que resulta poco operativo para un primer contacto con el software. Por ello, en uno de los capítulos de este TFG, se desarrolla un manual de usuario guiado paso a paso para que, tanto el alumnado como los docentes, puedan acceder y manejar de forma sencilla a la equipación y al software de Brainvision.
+\clearpage
+Por otro lado, en este trabajo de fin de grado (TFG), se ha llevado a cabo la adquisición de señales electroencefalográficas de tres sujetos distintos mediante el software Brainvision, en los que se ha estudiado la respuesta fisiológica durante un estado de calma, así como el posterior desarrollo en Python del software necesario para el análisis del filtrado y la representación de la densidad espectral de potencia de dichas señales.
+
+\section{Objetivos}
+\label{sec:objetivos} 
+Uno de los objetivos de este proyecto, es el correcto manejo del software \textit{BrainVision Recorder}, permitiendo a un usuario utilizar este sistema de manera guiada durante todo el proceso: montaje del sistema, adquisición de las señales, exportación de señales; y el análisis y procesado en python de las señales de electroencefalograma (EEG) recogidas por el software. Para lograr este objetivo, se definen las siguientes tareas:
+\begin{itemize}
+	\item Estudio de la señal EEG y las aplicaciones posibles tras su análisis,
+	\item Realización del manual de usuario para un correcto manejo del software \textit{Brainvision},
+	\item Revisión de técnicas de adquisición y técnicas de procesamiento de señal de EEG.
+	\item Adquisición de las señales EEG.
+	\item Desarrollo de software en python capaz de leer, filtrar y acondicionar cada una de las señales de EEG.
+	\item Obtención de indices espectrales de las señales EEG y análisis de resultados.
+\end{itemize}
+
+\clearpage
+\section{Organización de la Memoria}
+\label{sec:orgmemoria}
+
+Para conseguir los objetivos propuestos en el apartado \ref{sec:objetivos}, se han expuesto una serie de capítulos previos al trabajo de investigación, donde se realiza un breve repaso de conceptos previos para el correcto desarrollo del mismo. 
+
+Estructura de la memoria:
+
+\begin{itemize}
+	\item \textit{Capítulo 1 - Introducción}: se presentan los objetivos principales del proyecto, estructura de la memoria y contexto e importancia del estudio de la actividad eléctrica cerebral.
+	\item \textit{Capítulo 2 - Electroencefalograma}: se exponen los conceptos generales, desde un punto de vista clínico, de la técnica de exploración: electroencefalograma. 
+	\item \textit{Capítulo 3 - Brainvision Recorder}: se presenta el software dedicado al registro de actividad eléctrica cerebral y el manual de usuario adaptado al material disponible en las instalaciones de la universidad. 
+	\item \textit{Capítulo 4 - Métodos}: se realiza una breve explicación de las distintas técnicas de procesado utilizadas con las señales obtenidas. 
+	\item \textit{Capítulo 5 - Diseño y resultados}: se detalla los pasos seguidos en el desarrollo del trabajo, experimentos y resultados de los mismos.
+	\item \textit{Capítulo 6 - Conclusiones y líneas futuras}: se exponen las conclusiones y líneas futuras de investigación que puedan abordarse en próximos trabajos o ampliaciones de este estudio.
+\end{itemize}
+
+\chapter{Electroencefalograma}
+\section{Introducción}
+
+El EEG es una técnica de exploración funcional del sistema nervioso central, obteniendo el registro de actividad cerebral desde la superficie craneal  \cite{PrincipiosNeurociencia}. A día de hoy, continua siendo una herramienta de gran ayuda para el diagnóstico y seguimiento de ciertas patologías, como pueden ser la epilepsia, las encefalopatías, alteraciones del estado de conciencia, infecciones del sistema nervioso central, etc. 
+
+El origen de la señal eléctrica se origina en las células corticales piramidales de la corteza cerebral. 
+Existen dos grupos básicos de neuronas corticales, aquellas descritas por el método Golgi:
+
+\begin{itemize}
+	\item \textit{Neuronas piramidales}, las cuales presentan un axón diferenciable y constituyen los elementos de proyección de las neuronas.
+	\item \textit{Neuronas estrelladas}, sin axón prominente o con axón muy corto, cuya función es la de constituir las interneuronas que median el procesado de la información columnar.
+\end{itemize}
+
+Cada una de las neuronas corticales constituye un diminuto dipolo eléctrico, cuya polaridad depende de que el impulso a la célula sea inhibitorio o excitatorio. La detección de la actividad eléctrica en cada región cerebral se realiza a través de la superficie craneal, situando electrodos que captan la diferencia de potencial entre ellos. 
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.5\textwidth]{./img/neuronas}
+	\caption{Tipos principales de neuronas corticales: A. Piramidales, B. Estrelladas \cite{Neurocienciaaplicada}.}
+	\label{fig:neuronas_img}
+\end{figure}
+
+La electroencefalografía realiza el estudio y análisis de los campos eléctricos cerebrales (topografía, polaridad y su variación espacial temporal) mediante la amplificación de la diferencia de potencial entre los electrodos receptores de la señal. Pueden estar situados en el cuero cabelludo (EEG estándar), en la superficie cortical (EEG cortical) o intracerebrales (EEG de profundidad) \cite{Tecnicasbasicas}.
+
+El EEG estándar es una exploración indolora y no invasiva utilizada en la práctica clínica por su bajo coste, siendo su utilización cómoda y sencilla, posicionando los electrodos adheridos al cuero cabelludo por un gel conductor de acuerdo al sistema internacional 10-20.
+
+Existen distintos tipos de EEGs no invasivos:
+
+\begin{itemize}
+	\item \textit{Electroencefalograma estándar}, consiste en la realización de un EEG en reposo, sin necesidad de preparación por parte del sujeto para la recolección de datos ya que se encontrará en estado de vigilia. Es el examen más común indicado en el primer estudio de pacientes para identificar múltiples alteraciones.
+	\item \textit{Electroencefalograma en periodo de privación del sueño}, consiste en la realización del EEG con el sujeto privado de sueño durante las 24 horas previas a la prueba. El estudio se realiza durante la etapa de sueño del paciente, de esta manera se podrá realizar trazados fisiológico de las fases del sueño y así detectar alteraciones cerebrales que pueden surgir durante este periodo, por ejemplo apnea del sueño.
+	\item \textit{Vídeo-electroencefalograma}, consiste en la realización de un encefalograma estándar con la distinción de que el proceso es grabado en video con la finalidad de obtener un registro visual y eléctrico para su posterior estudio. 
+\end{itemize}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.8\textwidth]{./img/ejemploelectro}
+	\caption{Ejemplo de electroencefalograma \cite{Sornmo}.} 
+	\label{fig:ejemploelectro_img}
+\end{figure}
+
+\newpage
+\subsection{Historia del electroencefalograma}
+
+
+A finales del siglo XVIII comenzó la investigación de la actividad eléctrica cerebral, pero no fue hasta 1870, cuando los médicos alemanes, Fritsch y Hitzig, descubrieron la capacidad del cerebro para recibir estímulos eléctricos y producir una respuesta involuntaria. Cinco años más tarde, Richard Birmirk Caton, con ayuda de un galvanómetro\footnote{Galvanómetro: Instrumento utilizado para la detección y medición de la corriente eléctrica. Se trata de un transductor analógico electromecánico que produce una deformación de rotación en una aguja o puntero en respuesta a la corriente eléctrica que fluye a través de su bobina. \cite{Sornmo}}, consiguió registrar corrientes eléctricas mediante sus experimentos.
+
+Hubo que esperar hasta el 6 de julio de 1924, cuando el neuropsiquiatra alemán y candidato al premio Nobel, Hans Berger \cite{HansBerger}, inventó un sistema para registrar sobre el cuero cabelludo la actividad eléctrica cerebral, registrando con éxito la actividad cerebral de su hijo Klaus. Acuñó el término \textit{electroencefalograma} para describir el registro de las fluctuaciones eléctricas cerebrales captadas por electrodos fijados al cuero cabelludo.
+
+\newpage
+\subsection{Actividad eléctrica general}
+
+La actividad eléctrica de la corteza cerebral se conoce como ritmo, ya que las señales exhiben un comportamiento oscilatorio y repetitivo. La actividad conjunta de millones de neuronas corticales, a una profundidad de varios milímetros, produce un campo eléctrico suficientemente fuerte como para ser medido en el cuero cabelludo. Este campo eléctrico es generado por las corrientes que fluyen durante la excitación sináptica de las dendritas, los potenciales postsinápticos excitadores \cite{Sornmo}.
+
+La diversidad de los ritmos de EEG es variado y depende del estado mental del sujeto, grado de atención, vigilia o el sueño, entre otras cosas. La figura \ref{fig:ritmos_img} muestra una serie de ritmos de electroencefalograma registrados en diferentes estados. La amplitud de la señal se relaciona con el grado de sincronía con el que interactúan las neuronas corticales. La excitación de estas produce una señal de mayor amplitud en el cuero cabelludo, ya que las señales que se originan en las neuronas individuales, se sumarán en el tiempo. 
+
+Los ritmos de alta frecuencia y baja amplitud representan un cerebro activo, asociado con el estado de alerta o sueños, mientras que los ritmos de baja frecuencia y una amplia amplitud están asociados con la somnolencia y estados de sueño profundo. 
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.7\textwidth]{./img/ritmos}
+	\caption{Ritmos electroencefalográficos observados durante varios estados de vigilia: a. excitación, b. relajación, c. somnolencia, d. sueño y e. sueño profundo \cite{Sornmo}.} 
+	\label{fig:ritmos_img}
+\end{figure}
+
+\newpage
+
+\subsection{Tipos de ondas cerebrales}
+\label{subsec:tiposondas}
+Las ondas se clasifican según su frecuencia, es decir, según el número de veces que la onda se repite por segundo, y se expresan en hertzios (Hz). Las frecuencias poseen una determinada distribución topográfica y reactividad. La mayor parte de la señal cerebral observada en el cuero cabelludo está en un rango entre 0.5 y 30-40 Hz \cite{Sornmo}.
+
+Por otro lado, también se mide la amplitud. Esta se determina a partir de la comparación de la distancia ente la línea base y el pico de la onda. La morfología de la onda puede ser aguda, en punta, en complejos punta-onda y/o onda aguda-onda lenta, siendo su rango de amplitud desde unos poco microvoltios hasta aproximadamente 100$\mu$V.
+
+Los ritmos electroencefalográficos, también conocidos como ritmos de fondo, son clasificados según sus bandas de frecuencia: 
+
+\begin{itemize}
+	\item Las \textit {ondas delta $\delta$}  ($<$4 Hz) se encuentran generalmente durante la etapa de sueño profundo, con una amplia amplitud, en adultos y niños menores de un año. Es indicativo de enfermedades cerebrales si se encuentran en adultos despiertos.
+	
+	\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.45\textwidth]{./img/ondadelta}
+	\caption{Representación gráfica de ondas delta $\delta$ \cite{weblifeder}.} 
+	\label{fig:ondasdelta_img}
+	\end{figure}
+	
+	\item Las \textit{ondas theta $\theta$} (4-7 Hz) reflejan un estado de gran relajación previo al comienzo del sueño. En concreto, se vincula con las primeras fases del sueño. 
+	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=0.45\textwidth]{./img/ondatheta}
+		\caption{Representación gráfica de ondas theta $\theta$ \cite{weblifeder}.}
+		\label{fig:ondastheta_img}
+	\end{figure}
+	
+	\item Las \textit{ondas alfa $\alpha$ (8-13 Hz)} surgen cuando la persona se encuentra relajada, sin realizar esfuerzos mentales importantes. También aparecen cuando se cierran los ojos, se sueña despiertos, o se realizan actividades automatizadas. La amplitud de este tipo de ritmo es mayor en las zona occipitales.
+	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=0.45\textwidth]{./img/ondaalpha}
+		\caption{Representación gráfica de ondas alfa $\alpha$ \cite{weblifeder}.}
+		\label{fig:ondasalpha_img}
+	\end{figure}
+	\newpage
+	\item Las \textit{ondas beta $\beta$} (14-30 Hz) son ritmos rápidos con baja amplitud, asociados con la actividad del cortex, las cuales se pueden observar durante ciertas etapas del sueño. También aparecen cuando el sujeto está despierto realizando actividades que requieren un esfuerzo mental intenso, como hacer un examen o estudiar. Se observan principalmente en la zona frontal y central del cuero cabelludo.
+	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=0.45\textwidth]{./img/ondabeta}
+		\caption{Representación gráfica de ondas beta $\beta$ \cite{weblifeder}.} 
+		\label{fig:ondasbeta_img}
+	\end{figure}
+	
+	\item Las \textit{ondas gamma $\gamma$} ($>$30 Hz) están relacionadas con un estado de procesamiento de información activa de la corteza. Son las ondas más rápidas del cerebro, se asocian con una mayor actividad mental y momentos de extrema concentración.
+
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=0.45\textwidth]{./img/ondagamma}
+		\caption{Representación gráfica de ondas gamma $\gamma$ \cite{weblifeder}.} 
+		\label{fig:ondasgamma_img}
+	\end{figure}
+\end{itemize}
+
+\newpage
+\section{Técnicas de grabación}
+
+Los EEGs clínicos son realizados mediante el sistema internacional 10-20, sistema estandarizado para el posicionamiento de los electrodos. Este sistema emplea 21 electrodos situados en la superficie del cuero cabelludo en distintas localizaciones definidas por ciertos puntos de referencia anatómicos, distanciados un 10-20$\%$ entre ellos según el perímetro del cráneo (véase figura \ref{fig:puntosref_img}), aproximadamente 4.5 cm en adultos \cite{Sornmo}. 
+
+Los puntos de referencia son definidos entre la nariz (nasion) y la parte posterior del cráneo (inion) mediante las letras Fp, F, P, C, T, O y A, indicando las zonas craneales \textit{prefrontal, frontal, parietal, central, temporal, occipital y pabellón auricular}, respectivamente. Cómo se puede observar en la figura inferior, los subíndices se asignan según el hemisferio, impares en la zona izquierda, los pares en la derecha y los z en la zona central \cite{mapeo}.
+
+Como resultado se obtendrá el análisis de varias señales transmitidas a cada uno de los electrodos adheridos al cuero cabelludo del sujeto representadas como un mapa topográfico como se puede observar en la figura \ref{fig:ejemploelectro_img}.
+
+
+\begin{figure}[h]
+	\centering 
+	\includegraphics[width=0.8\textwidth]{./img/puntosref}
+	\caption{Sistema Internacional 10-20 para grabaciones de EEG clínicos \cite{mapeo}.} 
+	\label{fig:puntosref_img}
+\end{figure}
+	
+La frecuencia de muestreo para la adquisición de las señales de EEG debe ser al menos 200Hz, sin embargo, para un análisis más detallado se recurrirá a una frecuencia de muestreo notablemente mayor.
+
+\newpage
+\section{Aplicaciones de los electroencefalograma}
+
+Los EEGs continuan siendo una herramienta de gran ayuda para el diagnóstico y seguimiento de ciertos trastornos o enfermedades cerebrales, ya que ayudan a explorar el funcionamiento del encéfalo.
+ 
+En esta sección, se nombrarán y desarrollarán algunas de las patologías más relevantes donde la participación del EEG es necesaria para su detección:
+ \\
+
+\textbf{Epilepsia}
+
+La ayuda que el EEG proporciona en este campo es decisivo para el diagnóstico y para recopilar información sobre el tipo de convulsiones. Para los sujetos con sospecha de epilepsia, se registra un EEG durante treinta minutos en una habitación oscura y tranquila. Durante este período, se solicita al sujeto que abra y cierre los ojos para estudiar los cambios en el EEG relacionados con la luz.
+	
+Existen dos métodos de activación que se llevan a cabo antes de la finalización de la prueba para provocar formas de onda asociadas con la epilepsia. En el primero, el sujeto recibe indicaciones para respirar rápida y profundamente (simulación de hiperventilación), mientras que en el segundo de ellos, se enfrenta a una luz parpadeante a una velocidad de entre 1-25 Hz (estimulación fótica)
+	
+Antes de realizar la valoración del EEG, se debe tener en cuenta que hasta el 50$\%$ de los pacientes epilépticos pueden tener un EEG normal y que un 2$\%$ de la población sana tiene puntas en el EEG. 
+Por  ello, es de gran utilidad realizar distintas acciones durante el EEG, como por ejemplo hiperpnea, sueño, privación de sueño o fotoestimulación, registros prolongados de 24 horas, registros de vídeo-EEG,  los cuales permitirán aumentar las posibilidades de diagnóstico.
+\\
+
+\textbf{Patologías del sueño}
+
+Los trastornos del sueño son frecuente en nuestra sociedad, los cuales son provocados por un trastorno primario, consecuencia de patologías subyacentes o  trastornos psicológicos. Distintas patologías se incluyen en esta categoría, y en las que la polisomnografía\footnote{Polisomnografía: registro simultáneo de vídeo, EEG, actividad muscular, movimientos respiratorios torácicos y abdominales, flujo aéreo nasal y bucal, saturacíon de oxígeno, entre otros.} o un test de latencias múltiples del sueño\footnote{Test de latencias múltiples del sueño (TLMS): prueba en la que se valora la tendencia del paciente a dormirse en un ambiente tranquilo. Consiste en realizar al paciente una serie de siestas diurnas en las que se permita realizar mediciones de latencia al inicio del sueño, previamente hay que realizar una polisomnografía al paciente para documentar la calidad y cantidad de sueño.}, aportan información para un correcto diagnóstico del paciente \cite{weblatencias}. 
+
+Dichas patologías aparecen clasificadas en la ICSD-3\footnote{ICSD: Clasificación internacional de los trastornos del sueño.}, las cuales son clasificadas en seis grandes grupos \cite{webicsd}:
+
+\begin{itemize}
+	\item \textit{Insomnio}, trastorno en el inicio o en la conservación del sueño. La mayoría de la población sufre de dificultad para la conciliación o mantenimiento del sueño, despertar precoz o sueño poco reparador, a pesar de disponer de situaciones adecuadas para el mismo.
+	Además, para el diagnóstico de insomnio, es necesario que ciertas dificultades produzcan en el sujeto al menos una de las siguientes molestias diurnas: fatiga o sensación de malestar general, dificultad para la atención, concentración o memoria, cambios en el rendimiento socio-laboral (o escolar, en el caso de los niños), alteraciones del ánimo o del carácter, somnolencia, disminución de la energía, motivación o iniciativa, propensión a cometer errores en el trabajo o en la conducción de vehículos, síntomas somáticos como tensión muscular o cefalea, y preocupaciones, obsesiones o miedos en relación con el sueño.
+	
+	La ICSD distingue entre ocho tipos de insomnio: agudo, psicofisiológico, paradójico, idiopático, debido a trastornos mentales, debido a una inadecuada higiene del sueño, debido a fármacos o tóxicos o a problemas médico.
+	
+	\item \textit{Trastorno respiratorio}, trastorno que se caracteriza por una alteración de la respiración durante el sueño. Los síndromes de apnea central del sueño incluyen aquellos trastornos en los que el movimiento respiratorio ha disminuido o se encuentra ausente de manera intermitente, debido a una disfunción cardíaca o del sistema nervioso central.
+	
+	Se distinguen entre distintos trastornos respiratorios: apnea central primaria, patrón respiratorio de Cheyne Stokes, síndrome de apnea obstructiva del sueño (SAOS), hipoventilación alveolar central y hipoventilación alveolar central congénita.
+	\item \textit{Hipersomnia}, trastorno del mecanismo del sueño, caracterizado por un sueño excesivo constante e involuntario diurno (somnolencia diurna), no atribuyendo ninguna dificultad para el sueño nocturno. Se entiende por somnolencia diurna a la incapacidad de mantenerse despierto durante el día, ocurriendo con mayor probabilidad durante actividades que no requieren de una participación activa.
+	La severidad de dicha patología, se cuantifica subjetivamente mediante la Epworth Sleepiness Scale\footnote{Epworth Sleepiness Scale: cuestionario que determina la somnolencia diurna. Valida primordialmente en apnea del sueño, narcolepsia e hipersomnia idiopática \cite{epworth}}, y objetivamente mediante el test de latencias múltiples y el test de mantenimiento de la vigilia.
+	
+	En la segunda ICSD se incluyen las siguiente entidades: narcolepsia con cataplejia o síndrome de Gelinau, hipersomnia recurrente, hipersomnia idiopática con sueño prolongado, hipersomnia idiopática sin sueño prolongado, sueño insuficiente inducido por el comportamiento, hipersomnia debidas a enfermedades médica, consumo de fármacos o drogas o hipersomnia debida a trastornos mentales o pseudohipersomnia.
+	
+	\item \textit{Trastorno del ritmo circadiano}, trastorno en relación con el estado de sueño-vigilia, no coincidente con el ritmo circadiano biológico. El tipo de desorden más común es el conocido como $``$jet-lag$"$, afortunadamente, los trastornos relacionados con  nuevas programaciones del sueño son temporales, desapareciendo en un tiempo inferior a una semana. Sin embargo, existen trastornos más problemáticos, en los que el sujeto retrasa su hora de sueño media hora diariamente y de manera progresiva, trasladando su sueño entre el horario diurno y el nocturno.
+	
+	La ICSD distingue entre distintos tipos: síndrome de la fase del sueño retrasada, síndrome de la fase del sueño adelantada, ritmo sueño-vigilia irregular, ritmo sueño-vigilia libre,jet-lag, alteración del trabajador nocturno y alteración del ritmo circadiano debida a un proceso médico.
+	
+	\item \textit{Parasomnias}, trastornos de la conducta que tiene lugar durante el sueño, asociados con episodios del despertar, sin que se produzca una interrupción importante del sueño. 
+	
+	En la segunda edición de la Clasificación Internacional de los Trastornos del Sueño se dividen en tres grupos: parasomnias del despertar, parasomnias asociadas al sueño REM, y otras parasomnias, donde se incluyen los trastornos disociativos del sueño, la catatenia o el síndrome de comida nocturna.	
+	
+	\item \textit{Trastornos del movimiento relacionados con el sueño}, en las que se incluyen el síndrome de piernas inquietas, movimientos periódicos de las piernas, calambres nocturnos, bruxismo y movimientos rítmicos durante el sueño.
+	
+\end{itemize}
+
+\textbf{Coma y muerte cerebral},
+
+El EEG proporciona datos necesarios para realizar valoraciones sobre el estado de conciencia del paciente, pronóstico o grado de lentificación de la actividad cerebral, de forma que una menor frecuencia indicaría una reducción del nivel de conciencia. Permitiendo observar si existe presencia de actividad epileptiforme, indicando un peor pronóstico del sujeto, y la reactividad a estímulos, indicando la profundidad del coma.
+\\
+
+\textbf{Control de anestesia}, 
+
+El EEG es útil para controlar la profundidad de la anestesia, controlando el estado de conciencia en el que se encuentra el paciente durante una intervención quirúrgica, evitando que entre en estado de coma o despierte.
+
+\chapter{Brainvision Recorder}
+\label{sec:brainvision}
+\textit{BrainVision Recorder} es un potente software dedicado al registro de actividad eléctrica cerebral, con posibilidad de manipulación en tiempo real, donde su estructura interna permite trabajar con un número de canales ilimitado. 
+
+\textit{Recorder} fue creado para ser utilizado en el contexto de las aplicaciones no médicas con el fin de llevar a cabo la investigación sobre la metodología y los datos neurológicos, y para la grabación de distinto tipos de señales electrofisiológicas:
+
+\begin{itemize}
+	\item \textit{EEG - Electroencefalografía}: técnica de registro de la actividad bioeléctrica cerebral en condiciones basales de reposo, en vigilia o sueño, y durante diversas activaciones (habitualmente hiperpnea y estimulación luminosa intermitente) mediante un equipo de electroencefalografía,
+	\item \textit{EMG - Electromiografía}: técnica de registro gráfico de la actividad eléctrica producida por los músculos esqueléticos,
+	\item \textit{ECG - Electrocardiograma}: representación gráfica de la actividad eléctrica del corazón en función del tiempo, que se obtiene, desde la superficie corporal, en el pecho, con un electrocardiógrafo en forma de cinta continua,
+	\item \textit{EOG - Electrooculografía}: prueba electrofisiológica que recoge las alteraciones del potencial de la retina en reposo y las producidas por el movimiento ocular o la estimulación luminosa.
+\end{itemize}
+
+El manual oficial del software \cite{manualrecorder} presenta una serie de hitos en los que se puede encontrar la información básica necesaria, tanto para la instalación de \textit{BrainVision Recorder} cómo los equipos necesarios para una correcta utilización de los mismos y su entorno de trabajo. 
+
+El manual presentado a continuación, ha sido desarrollado utilizando el manual oficial, adaptándolo a la equipación disponible en el laboratorio para determinar las necesidades de un usuario al enfrentarse por primera vez al equipo     .
+
+\section{Instalación}
+\label{sec:instalacion}
+La instalación de \textit{Recorder} no crea conflictos con otros programas que han sido instalados previamente, por ejemplo: \textit{BrainVision Analizer, RecView y actiCAP Control Software}, o programas que incluye el sistema operativo \textit{Microsoft}.
+
+A continuación, se enumeran los hitos necesarios para lograr una correcta instalación:
+
+\subsection{Requisitos del Sistema}
+\label{subsec:requisitossistema}
+
+El equipo donde se ejecutarán los pasos de la sección \ref{subsec:instalarrecorder}, para llevar a cabo la instalación del software \textit{Recorder}, debe cumplir con los requisitos indicados en la siguiente tabla:
+
+\begin{table}[htb]
+\centering
+\includegraphics[width=0.8\textwidth]{./img/requisitosdelsistema}
+\caption{Requisitos del Sistema.} 
+\label{tabla:requisitossistema_tabla}
+\end{table}
+
+\newpage
+\subsection{Preparación del equipo}
+\label{subsec:preparacionequipo}
+
+\textit{BrainVision} asegura que el rendimiento del equipo donde se realice la instalación no se verá afectado por los procesos en background o aplicaciones ejecutadas en tiempo real. Para ello, se deben realizar una serie de acciones a tener en cuenta en la preparación del equipo, deshabilitando:
+
+\begin{itemize}
+	\item procesos de ejecución en segundo plano,
+	\item programas de detección y eliminación de virus informáticos,
+	\item servicios de actualización, por ejemplo del propio sistema operativo \textit{Windows}, navegadores,  \textit{Java}, etc. 
+\end{itemize}
+
+\subsection{Instalación del programa}
+\label{subsec:instalarrecorder}
+ \textit{Recorder} será instalado de una manera sencilla, siguiendo los hitos mostrados a continuación:
+
+\begin{enumerate}[1.]
+	\item Se insertará el disco \textit{'Application Suite'} en el lector de DVDs del ordenador, apareciendo de manera automática una ventana con los ficheros necesarios para su instalación, 
+	\item se ejecutará el fichero Autorun.exe, mostrando la ventana de bienvenida de \textit{BrainVision}, indicando varias opciones de instalación,
+	\item seleccionando la opción \textit{'Install BrainVision Recorder and Video Recorder'}, una nueva ventana de instalación se mostrará. Seleccionando \textit{'Install BrainVision Recorder'}, aparecerá un dialogo de instalación donde se elegirá las opciones por defecto.
+\end{enumerate}
+
+En el caso de que no aparezca de manera automática la ventana con los ficheros de instalación, podrá ejecutarse de manera manual:
+	\begin{enumerate}[a.]
+		\item En el teclado, presionando la tecla Windows más la tecla R o mediante la aplicación 'ejecutar' o 'run',
+		\item seleccionando 'Browse' y localice la opción en la que aparezca el reproductor de CD/DVD,
+		\item seleccione el fichero Autorun.exe.
+	\end{enumerate}
+
+\subsection{Actualización del programa}
+\label{subsec:actualizarrecorder}
+
+La actualización de \textit{Recorder} se realizará según el tipo de actualización disponible:
+\begin{enumerate}[1.]
+		\item nueva versión del producto, adquiriéndose a través de la web:  \textit{www.brainproduct.com}.
+		\item pequeños cambios, corrección de bugs o añadir nuevas funciones al programa, se descargará desde \textit{'Application Suite'}, utilizado en la sección \ref{subsec:instalarrecorder}. 
+		
+		Para ello, se insertará el disco de instalación, seleccionando 'Install BrainVision Recorder and Video Recorder' y pulsando la opción 'Instal new modules', se encontrará disponible si existen nuevos módulos a instalar.
+	\end{enumerate}
+
+\subsection{Comprobación de licencias}
+\label{subsec:comprobacionlicencias}
+
+Realizados los pasos indicados anteriormente, es conveniente asegurarse de que la información de licencia es la correcta. Para ello, se conectarán el dongle (véase \ref{subsubsec:licencias}) y se ejecutará Recorder en modo administrador (botón derecho $\rightarrow$ modo administrador). Navegue hasta la pestaña \textit{'Help'}, y seleccionar \textit{'About BrainVision Recorder'}.
+
+Se mostrará una nueva ventana en la que se indicará la siguiente información:
+\begin{itemize}
+	\item Información del dongle y número de serie interno,
+	\item fecha de expiración,
+	\item sublicencias.
+\end{itemize}
+
+\begin{figure}[htb]
+\centering
+\includegraphics[width=0.60\textwidth]{./img/infolicencia}
+\caption{Información de las licencias.} \label{fig:infolicencia_img}
+\end{figure} 
+
+\section{Equipación}
+\label{sec:equipacion}
+
+\textit{BrainVision} dispone de una gran variedad de equipación para realizar distintas actividades. En el estudio de EEGs, el equipo proporcionado por \textit{BrainVision}, necesario para un correcto funcionamiento, recibe el nombre de \textit{actiCHamp}:
+
+\subsection{actiCHamp}
+\label{subsec:actichamp}
+El hardware que compone \textit{actiCHamp} integra componentes de alta gama para investigación electrofisiológica (EEG / ERP, ExG, BCI, etc.), compuesto por dos módulos: amplificador y batería.
+
+\subsubsection{Amplificador}
+\label{subsubsec:amplificador}
+
+En la Figura (\ref{fig:amplificador_img}), se muestra el amplificador que compone actiCHamp, un amplificador de canal activo de 24 bits alimentado por batería (\ref{subsubsec:bateria}), junto con electrodos activos actiCAP.
+Este módulo amplificador se compone de:
+
+\begin{itemize}
+	\item 8 entradas auxiliares,
+	\item 32 canales EEG,
+\end{itemize}
+
+Siendo 100 KHz la frecuencia mínima de muestreo y la máxima dependiendo de los canales utilizados, existiendo la posibilidad de agregar módulos para incorporar más canales de entrada (hasta un máximo de 160 canales).
+
+\begin{figure}[htb]
+\centering
+\includegraphics[width=0.7\textwidth]{./img/amplificadorok}
+\caption{Amplificador.} 
+\label{fig:amplificador_img}
+\end{figure}
+
+\subsubsection{Batería}
+\label{subsubsec:bateria}
+
+La batería que compone el hardware, recibe el nombre de actiPOWER (figura \ref{fig:bateria_img}). Se trata de una batería recargable de plomo con un patrón de descarga cuando al conectarse con el amplificador actiCHamp.
+
+\begin{figure}[htb]
+\centering
+\includegraphics[width=0.7\textwidth]{./img/bateriaok}
+\caption{Bateria.} \label{fig:bateria_img}
+\end{figure}
+
+\subsubsection{Licencias}
+\label{subsubsec:licencias}
+
+En el laboratorio, se dispone de dos dongle de licencias para los software Analyzer y Recorder, los cuales deben permanecer conectados mientras se utilizan ambos software. Puede verse su correcta conexión en la sección \ref{subsec:primeravez}.
+
+\begin{figure}[htb]
+\centering
+\includegraphics[width=0.7\textwidth]{./img/licenciasok}
+\caption{Licencias.} \label{fig:liciencias_img}
+\end{figure}
+
+\newpage
+
+\subsubsection{Cascos}
+\label{subsubsec:cascos}
+
+Brainvision dispone de una amplia gama de cascos, pero únicamente disponemos de dos variantes en nuestros laboratorios:
+
+\begin{itemize}
+\item actiCAP: Sistema de Electrodos Activos
+
+Se trata de un sistema de posicionamiento con electrodos activos basados en la alta calidad de los sensores de Ag/AgCl, con un tipo de circuitos integrados de substracción de ruido incluso a niveles más bajos que otros electrodos activos desarrollados hasta la fecha.
+Convierte los electrodos del casco en amplificadores activos. Con una alta impedancia de entrada mayor que 200 M$\Omega$, la medición de impedancias se visualiza directamente en el mismo electrodo a través de LEDs de colores.
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.3\textwidth]{./img/acticap}
+	\caption{Acticap.} \label{fig:acticap_img}
+\end{figure}
+
+Se puede conectar a todos los amplificadores de Brain Products como a la mayoría de amplificadores de otros fabricantes.
+
+El tiempo de preparación de un sujeto es inferior a 10 minutos, en el caso de una casco de 64 canales, o bien 15 minutos, para un casco de 128 canales.
+
+\item actiCAP Express: Sistema de Electrodos Activos Secos
+
+Se trata de un sistema de posicionamiento con 32 canales de electrodos activos en seco, lo que acelera la preparación del sujeto. 
+Dispone de dos tipos de sensores llamados QuickBits, los cuales garantizan un alto confort para el sujeto. Ambos están fabricados en un material robusto chapado en oro.
+\begin{itemize}
+	\item 6 sensores planos en forma de T, para las posiciones prefontales y sin pelo,
+	\item 32 sensores $``$mushroom-headed$"$, para garantizar un contacto estable con el cuero cabelludo, incluso si no se encuentran completamente perpendicular al cuero cabelludo.
+\end{itemize}
+
+\begin{figure}[htb]
+\centering
+\includegraphics[width=0.4\textwidth]{./img/sensores}
+\caption{Tipos de sensores Quickbits.} 
+\label{fig:sensores_img}
+\end{figure}
+
+
+Estos sensores se encuentran disponibles en cuatro longitudes diferentes, para garantizar un contacto óptimo entre el electrodo y el cuero cabelludo, las cuales puede distinguirse fácilmente ya que disponen de una banda de color.
+
+Cómo se puede observar en la imagen \ref{fig:acticapxpress_img}, el casco nos proporciona la opción de añadir más electrodos para realizar exámenes que requieran añadir más canales.
+
+\begin{figure}[htb]
+\centering
+\includegraphics[width=0.3\textwidth]{./img/acticapxpress}
+\caption{Acticap Xpress.} 
+\label{fig:acticapxpress_img}
+\end{figure}
+
+\end{itemize}
+\newpage
+\section{Entorno de trabajo}
+\label{sec:entornotrabajo}
+\subsection{Utilizar Recorder por primera vez}
+\label{subsec:primeravez}
+
+Una vez instalado Recorder, antes de comenzar a utilizar el software, se procederá a la conexión de los equipos que han sido enumerados en la sección \textit{Equipación} (véase \ref{sec:equipacion}): licencias, amplificador, batería y casco.
+
+Para ello, se deberán seguir los siguientes pasos:
+\begin{enumerate}[1.]
+	\item Al conectar el dongle de la licencia de Recoder al equipo, comenzará a instalarse los drivers en el equipo. Una vez finalizada la instalación, el dongle emitirá una luz roja
+		\begin{figure}[htb]
+		\centering
+		\includegraphics[width=0.5\textwidth]{./img/conexionlicencia}
+		\caption{Conexión licencia - PC \cite{manualrecorder}.} 
+		\label{fig:conexionlicencia_img}
+		\end{figure}
+	
+	
+	\item Conectaremos el cable de alimentación entre el amplificador y la batería:
+		\begin{figure}[htb]
+		\centering
+		\includegraphics[width=0.3\textwidth]{./img/conexionbatampli}
+		\caption{Conexión actiCHamp - actiPOWER \cite{manualrecorder}.} 
+		\label{fig:conexionbatampli_img}
+		\end{figure}
+		
+	\item Con un cable USB, se conectará actiCHamp al equipo y comenzará a instalarse los drivers de este:
+		\begin{figure}[htb]
+		\centering
+		\includegraphics[width=0.3\textwidth]{./img/conexionamplipc}
+		\caption{Conexión actiCHamp - PC \cite{manualrecorder}.} 
+		\label{fig:conexionamplipc_img}
+		\end{figure}
+	\newpage
+	\item En el amplificador actiCHamp, se conectará el cable GND para hacerlo a su vez en el casco actiCAP Express:
+		\begin{figure}[htb]
+		\centering
+		\includegraphics[width=0.3\textwidth]{./img/conexiongndampli}
+		\caption{Conexión GND - actiCHamp \cite{manualrecorder}.} 
+		\label{fig:conexiongndampli_img}
+		\end{figure}
+	\newpage
+	
+	\item Por último, se conectarán los electrodos de actiCAP Express al amplificador:
+		\begin{figure}[htb]
+		\centering
+		\includegraphics[width=0.3\textwidth]{./img/conexioncascoampli}
+		\caption{Conexión actiCAP Express - actiCHamp \cite{manualrecorder}.} 
+		\label{fig:acticapxpress2_img}
+		\end{figure}	
+\end{enumerate}
+
+Una vez conectado el equipo, se iniciará \textit{Recorder} en modo administrador, navegaremos por el menú y seleccionaremos \textit{Configuration}, \textit{Select Amplifier}, donde en el listado podremos elegir nuestro amplificador, actiCHamp, o simularlo.
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.8\textwidth]{./img/seleccionamplificador}
+	\caption{Configuration $\rightarrow$ Select Amplifier.} 
+	\label{fig:seleccionampli_img}
+\end{figure}	
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.6\textwidth]{./img/seleccionamplificadorlistado}
+	\caption{Listado de amplificadores.} 
+	\label{fig:seleccionamplilistado_img}
+\end{figure}	
+
+Se podrá crear o abrir un espacio de trabajo ya existente, véase \ref{subsec:crearespacio}, se podrá acceder a la monitorización clicando en el botón Start Monitoring \includegraphics[width=6mm]{./img/monitorizacion}. Si no encuentra errores, comenzarán a aparecer curvas EEG en la ventana del espacio de trabajo de \textit{Recorder}. 
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.8\textwidth]{./img/ejmonitorizacionsinsujeto}
+	\caption{Ejemplo de monitorización sin sujeto.} 
+	\label{fig:ejemplomon_img}
+\end{figure} 
+
+\newpage
+\subsection{La barra de herramientas}
+\label{subsec:barraherramientas}
+En esta sección, se podrá encontrar especificaciones de todos los accesos que se encuentran en la barra de herramientas, agrupados según su función, situada en la parte superior del programa:
+
+\begin{figure}[htb]
+\centering
+\vspace{1.0mm}\includegraphics[width=0.8\textwidth]{./img/barradeherramientas2}
+\caption{Barra de herramientas.} \label{fig:barradeherramientas_img}
+\end{figure}
+
+\begin{table}[htbp]
+\begin{center}
+\begin{tabular}{ | >{\centering\arraybackslash}m{2cm} | >{\arraybackslash}m{12cm} |}
+\hline 
+\vspace{1.52mm}\includegraphics[width=6mm]{./img/monitorizacion} & Iniciar o detener la monitorización \\ \hline
+\vspace{1.52mm}\includegraphics[width=6mm]{./img/impedancia} & Comprobación de impedancias \\ \hline
+\vspace{1.52mm}\includegraphics[width=6mm]{./img/testsignal} & Test Signal \\ \hline
+\end{tabular}
+\caption{Barra de herramientas: Monitorización.}
+\label{tabla:barra1}
+\end{center}
+\end{table}
+
+\begin{table}[htbp]
+\begin{center}
+\begin{tabular}{ | >{\centering\arraybackslash}m{2cm} | >{\arraybackslash}m{12cm} |}
+\hline 
+\vspace{1.52mm}\includegraphics[width=6mm]{./img/play} & Grabar (Comienza o continua la grabación. Nueva marca de segmento) \\ \hline
+\vspace{1.52mm}\includegraphics[width=6mm]{./img/pause} & Pausa \\ \hline
+\vspace{1.52mm}\includegraphics[width=6mm]{./img/stop} & Para la grabación \\ \hline
+\vspace{1.52mm}\includegraphics[width=6mm]{./img/supervision} & Detener supervisión \\ \hline
+\vspace{1.52mm}\includegraphics[width=6mm]{./img/anotacion} & Insertar anotación \\ \hline
+\end{tabular}
+\caption{Barra de herramientas: Registro de datos.}
+\label{tabla:registrodatos}
+\end{center}
+\end{table}
+
+\begin{table}[htbp]
+\begin{center}
+\begin{tabular}{ | >{\centering\arraybackslash}m{2cm} | >{\arraybackslash}m{12cm} |}
+\hline 
+\vspace{1.52mm}\includegraphics[width=6mm]{./img/alejarzoom} & Aumentar intervalo de visualización (alejar) \\ \hline
+\vspace{1.52mm}\includegraphics[width=6mm]{./img/aumentarzoom} & Disinuir intervalo de visualización (acercar) \\ \hline
+\vspace{1.52mm}\includegraphics[width=6mm]{./img/aumentarescala} & Aumentar factor de escala \\ \hline
+\vspace{1.52mm}\includegraphics[width=6mm]{./img/disminuirescala} & Disminuir factor de escala \\ \hline
+\vspace{1.52mm}\includegraphics[width=6mm]{./img/disminuircanales} & Disminuir los canales numéricos que se muestran en pantalla \\ \hline
+\vspace{1.52mm}\includegraphics[width=6mm]{./img/aumentarcanales} & Aumentar los canales numéricos que se muestran en pantalla \\ \hline
+\vspace{1.52mm}\includegraphics[width=6mm]{./img/siggrupocanales} & Cambiar al siguiente grupo de canales \\ \hline
+\vspace{1.52mm}\includegraphics[width=6mm]{./img/anteriorgrupocanales} & Cambiar al anterior grupo de canales \\ \hline
+\vspace{1.52mm}\includegraphics[width=6mm]{./img/correccion} & Activar o desactivar la corrección de la línea de base \\ \hline
+\end{tabular}
+\caption{Barra de herramientas: Visualización.}
+\label{tabla:visualizacion}
+\end{center}
+\end{table}
+
+\begin{table}[htbp] 
+\begin{center}
+\begin{tabular}{ | >{\centering\arraybackslash}m{2cm} | >{\arraybackslash}m{12cm} |}
+\hline 
+\vspace{1.52mm}\includegraphics[width=6mm]{./img/dc} & Correcciones DC  \\ \hline
+\vspace{1.52mm}\includegraphics[width=6mm]{./img/filter} & Mostrar filtros \\ \hline
+\vspace{1.52mm}\includegraphics[width=6mm]{./img/info}  & Información del Workspace \\ \hline
+\end{tabular}
+\caption{Barra de herramientas: Filtros y Correcciones .}
+\label{tabla:barra2}
+\end{center}
+\end{table}
+
+\begin{table}[htbp]
+\begin{center}
+\begin{tabular}{ | >{\centering\arraybackslash}m{2cm} | >{\arraybackslash}m{12cm} |}
+\hline 
+\vspace{1.52mm}\includegraphics[width=6mm]{./img/cascada}  & Ventanas en cascada\\ \hline
+\vspace{1.52mm}\includegraphics[width=6mm]{./img/vertical}  & Mostrar ventanas en vertical \\ \hline
+\vspace{1.52mm}\includegraphics[width=6mm]{./img/horizontal}  & Mostrar ventanas en horizontal \\ \hline
+\vspace{1.52mm}\includegraphics[width=6mm]{./img/about}  & About \\ \hline
+\end{tabular}
+\caption{Barra de herramientas: Configuración de la ventana.}
+\label{tabla:barra3}
+\end{center}
+\end{table}
+
+\newpage
+\subsection{Crear un espacio de trabajo}
+\label{subsec:crearespacio}
+
+Los espacios de trabajo almacenan todos los ajustes del amplificador y algunas configuraciones básicas del proyecto, como por ejemplo filtros, la segmentación y el promedio.
+
+Para crear un nuevo espacio de trabajo, entre las opciones que se muestran en la barra de herramientas, se seleccionará \textit{File $>$ New Workspace}. 
+
+\begin{figure}[htb]
+\centering
+\includegraphics[width=0.8\textwidth]{./img/newworkspace}
+\caption{Nuevo espacio de trabajo.} \label{fig:newworkspace_img}
+\end{figure}
+
+
+A continuación, se abrirá de manera automática el asistente de Recorder, donde se mostrará la siguiente información:
+
+En la figura \ref{fig:editworkspace_img}, se definen los siguientes campos:
+\begin{enumerate}
+	\item \textit{Raw File Folder}: seleccionando el botón 'Browser', se definirá el directorio donde se almacenarán los ficheros generados. 
+	
+	Por defecto, se almacenarán en ' C: \textbackslash{Vision}\textbackslash{Raw Files} '.
+	\item \textit{Automatic File Generator}: si se desea que los nombres de los archivos se generen de manera automática., se seleccionará esta casilla. Para ello, deberán definirse los siguientes parámetros:
+		\begin{enumerate}
+			\item Prefix: prefijo que se le asignará a todas las muestras que se generen la nueva medición.
+			\item Min. Counter Size: valor numérico que definirá el número de dígitos que tendrá el contador.
+			\item Current Number: valor numérico en el que comenzará a contabilizar el contador.
+		\end{enumerate}
+	\item \textit{Next Resulting Filename}: mostrará el nombre completo del archivo utilizando los tres parámetros definidos.
+\end{enumerate}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.6\textwidth]{./img/editworkspace}
+	\caption{Nuevo espacio de trabajo.} \label{fig:editworkspace_img}
+\end{figure}
+
+Presionando \textit{Next}, aparecerá una nueva ventana donde se configurará el amplificador (véase Apéndice \ref{app:amplificador}):
+
+\begin{enumerate}
+	\item \textit {Scan for Amplifiers}: listado de los amplificadores detectados. 
+	\item \textit {Number of channels}: número específico de canales.
+	\item \textit {Sampling rate}: frecuencia de muestreo. Dependiendo del amplificador seleccionado, una alta frecuencia de muestreo puede limitar el número de canales.
+\end{enumerate}
+
+Un vez configuradas las opciones del amplificador, tras pulsar Next, aparecerá una nueva ventana donde se diseñará la configuración de los filtros a utilizar. En nuestro caso, no procederemos a su configuración ya que se realizará el procesado y filtrado de la señal mediante Python.
+
+Tras finalizar la configuración del nuevo espacio de trabajo, se podrá comenzar con la monitorización pulsando sobre el botón \includegraphics[width=6mm]{./img/monitorizacion}.
+
+\newpage
+\section{Filtros}
+\label{sec:filtros}
+
+Si se desea añadir fitros al espacio de trabajo, solo es necesario editarlo. En el menú principal, se seleccionará \textit{File $\rightarrow$ Edit Workspace }, y aparecerá el diálogo de configuración, navegaremos por las distintas ventanas hasta encontrar la ventana de configuración. En esta ventana, encontramos tres pestañas de configuración:
+
+\begin{enumerate}
+	\item \textit {Raw Data Saving Filters}: si se desea configurar esta pestaña, los datos se aplicarán a los datos obtenidos en crudo, es decir, en caso de querer recuperar los datos originales no será posible,
+	
+	\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.8\textwidth]{./img/filtro1}
+	\caption{Configuración raw data saving filters.} \label{fig:filtro1_img}
+	\end{figure}
+	\newpage
+	\item \textit {Segmentation Filters}: para segmentar nuestras señales, se debe configurar los parámetros mostrados en la imagen inferior para añadir filtros a los segmentos seleccionados, 
+	
+	\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.8\textwidth]{./img/filtro2}
+	\caption{Configuración segmentation filters.} \label{fig:filtro2_img}
+	\end{figure}
+	\newpage
+	\item \textit {Display Filters}: estos filtros solo tendrán efecto en pantalla, no modificarán los datos obtenidos en la grabación. Pueden ser activados y desactivados con el botón \includegraphics[width=6mm]{./img/filter}
+	
+	\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.8\textwidth]{./img/filtro3}
+	\caption{Configuración display filters.} \label{fig:filtro3_img}
+	\end{figure}	
+\end{enumerate}
+
+\afterpage{\blankpage}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MÉTODOS 
+\chapter{Métodos}
+
+En este tercer capítulo, se enumeran los métodos utilizados en el desarrollo de este TFG, centrados principalmente en el procesado de las señales EEG utilizando filtros lineales (paso-banda y filtrado Notch), filtrado avanzado (ICA) y su posterior cálculo y representación de la densidad espectral de potencia por bandas frecuenciales.
+\section{Conceptos previos}
+\label{sec:conceptosprevios}
+
+\subsection{Diagrama de Bode}
+\label{subsec:bode}
+
+Por definición, el diagrama de Bode se compone de dos representaciones gráficas que se utilizan para caracterizar la respuesta en frecuencia de una función de transferencia.
+
+La función de transferencia es el resultado de relacionar el voltaje de salida (Vout o voltaje de resistencia) con el voltaje de entrada (Vin o voltaje de fuente), ambos voltajes en función de la frecuencia compleja, s:
+
+\begin{equation}
+	H(s) = \frac{Vout(s)}{Vin(s)}
+\end{equation}
+
+
+Normalmente, los diagramas se componen por un diagrama de magnitud, donde se representa la ganancia (en decibelios) del sistema y un diagrama de fase, donde se representa la fase del sistema; ambas representaciones se muestran en función de la frecuencia.  
+
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.8\textwidth]{./img/bode}
+	\caption{Diagrama de Bode - Filtro Notch a 50 Hz.} \label{fig:bode_img}
+\end{figure}
+\newpage
+\subsection{Filtrado FIR e IIR}
+\label{subsec:fireiir}
+
+Un filtro digital es un algoritmo matemático que opera sobre un conjunto de datos digitales (por ejemplo, los datos de un sensor) para extraer la información de interés y eliminar la información no deseada. Las aplicaciones de este tipo de tecnología incluyen la eliminación de fallos en los datos de los sensores o incluso la limpieza del ruido en una señal medida para facilitar el análisis de los datos.
+
+Los filtros digitales se dividen en dos categorías según la longitud de su respuesta al impulso:
+
+\begin{enumerate}
+	\item \textit {FIR - Finite Impulse Response}: este tipo de filtro pueden tener respuestas de impulso antisimétricas de fase lineal o asimétricas de fase no lineal. El filtrado se implementa como una convolución de la entrada del filtro y
+	la respuesta al impulso; la respuesta al impulso y los coeficientes del filtro son idénticos; por lo tanto, la longitud de un filtro FIR es la longitud de la respuesta al impulso. Los filtros FIR se basan en la función sinc que se aproxima a una respuesta de magnitud rectangular, por lo que a veces se denominan filtros $``$ideales$"$  \cite{firvsiir}.
+	\item \textit {Infinite Impulse Response - IIR}: este tipo de filtro pueden ser inestable debido a los errores de redondeo acumulados	en las variables de estado. Los filtros IIR, tienen respuestas al impulso asimétricas y fase no lineal. Dicha respuesta al impulso se implementa en una función definida por las variables de estado y por los coeficientes del filtro \cite{digitalfilterdesing}.
+\end{enumerate}
+
+\section{Filtrado lineal}
+\label{sec:filtradolineal}
+
+\subsection{Filtrado paso banda}
+\label{subsec:bandpass}
+
+El filtro pasa banda (Bandpass filter, BPF), es un tipo de filtrado que ha sido diseñado para reducir la señal, dejando pasar ciertas bandas de frecuencia y rechazando las que se encuentren fuera de ella.
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.5\textwidth]{./img/filtropassband}
+	\caption{Filtro Pasa Banda.} \label{fig:filtropassband_img}
+\end{figure}
+
+La implementación de este tipo de filtro puede ser directo, indicando una frecuencia superior e inferior \textit{(Fs y Fi, respectivamente)}, o concatenando un filtro paso alto (high pass filter, HPF) en serie con un filtro paso bajo (low pass filter, LPF) \cite{filtronotch-pbf}.
+\subsection{Filtrado Notch}
+\label{subsec:eliminabanda}
+
+El filtro Notch es también conocido como elimina banda o rechaza banda. Se caracteriza por ser un tipo de filtrado bastante abrupto, siendo su objetivo atenuar una parte de la señal en una banda de frecuencias específica que, por ejemplo, este interfiriendo en la señal. En la imagen \ref{fig:filtronotch_img} se muestra un ejemplo de respuesta de un filtro Notch.
+
+Este tipo de filtrado se encarga de rechazar el ruido generado por una frecuencia en concreto, dejando pasar el resto de frecuencias sin alteración alguna. Esto ocurre, por ejemplo, con las interferencias producidas por la línea de potencia (red eléctrica) en las frecuencias de 50 o 60 Hz según zona geográfica \cite{filtronotch-pbf}.
+\newpage
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.5\textwidth]{./img/filtronotch}
+	\caption{Filtro Notch - Elimina Banda.} \label{fig:filtronotch_img}
+\end{figure}
+
+\section{Filtrado avanzado}
+\label{sec:filtradoavanzado1}
+
+\subsection{Independent Component Analysis}
+\label{subsec:ICA}
+
+El Análisis por Componentes Independientes (Independent Component Analysis, ICA) es un método estadístico de orden superior que tiene como objetivo principal encontrar una representación no lineal de los datos no gaussianos de forma que estas componentes sean lo más independiente posible, es decir, que una componente no tenga datos de la otras que forman parte de la señal.
+
+Este método tiene como condición que las componentes deben ser estadísticamente independientes, siendo esta condición más fuerte que la no-correlación puesto que esta última requiere de estadísticas de segundo grado \cite{analisisICA}.
+
+La metodología ICA, guarda una estrecha relación con la separación ciega de fuentes (Blind Source Separation, BSS) \cite{separacionciega}, y para su correcto entendimiento,  se pondrá como ejemplo el conocido \textit{efecto Cocktail Party}. Se supondrá que en un espacio cerrados se encuentran múltiples fuentes emitiendo sonidos y múltiples micrófonos repartidos por dicho espacio. Estos micrófonos, grabarán señales acústicas (Xn) que consisten en la suma ponderada de las señales individuales de cada fuente ($Sm$)  (figura \ref{fig:cocktail_img}).
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.8\textwidth]{./img/cocktail}
+	\caption{Esquema del efecto Cocktail Party.} \label{fig:cocktail_img}
+\end{figure}
+
+\newpage
+
+El cerebro humano es capaz de resolver este problema, separando las fuentes auditivas automáticamente de una manera sencilla, pero para el procesamiento digital de señales tiene una complejidad mayor, por ello el análisis de componentes independientes es uno de los algoritmos que es capaz de resolver problemas similares.
+
+La grabación de señales EEG es un claro ejemplo de efecto \textit{Cocktail Party}, puesto que se dispone de los datos recogidos por los electrodos en distintas posiciones desconociendo las componentes principales de la actividad cerebral (figura \ref{fig:cocktailICA_img}).
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.7\textwidth]{./img/cocktail-ICA}
+	\caption{Esquema del efecto Cocktail Party - ICA.} \label{fig:cocktailICA_img}
+\end{figure}
+
+
+
+Para describir matemáticamente el modelo ICA, la notación matricial es la más adecuada, donde X  es la matriz de datos observables, A la matriz invertible conocida como matriz de mezcla y S la matriz de fuentes o componentes independientes:
+
+\begin{equation}
+	X_{NxM} = A_{NxM}  ·  S_{NxM}  \textup{      ó      }
+	\begin{bmatrix}
+		x_{1} \\
+		\vdots \\
+		\vdots \\
+		x_{N}
+	\end{bmatrix}
+	=
+	\begin{bmatrix}
+		a_{11} & \cdots & \cdots & a_{1M} \\
+		\vdots & \ddots &   & \vdots \\
+		\vdots &  & \ddots & \vdots \\
+		a_{N1} & \cdots & \cdots & a_{NM} \\
+	\end{bmatrix}
+	·
+		\begin{bmatrix}
+		s_{1} \\
+		\vdots \\
+		\vdots \\
+		s_{N}
+	\end{bmatrix}
+\end{equation}
+\\
+
+La matriz $X_{NxM}$ se genera a partir de las bases que conforman el espacio vectorial de $A_{NxN}$. Este modelo describe como las observaciones son generadas, mediante un proceso de mezcla determinado, a partir de las fuentes originales. Tanto la matriz S como la matriz A se asume que son desconocidas, por lo que serán estimadas siendo lo más independientes posibles entre sí y con distribución no gaussiana.
+
+
+Teniendo en cuenta que el único dato conocido es la matriz $X_{NxM}$, se realiza el proceso correspondiente para la estimación de $A_{NxN}$ y $S_{NxM}$. Para estimar $A_{NxN}$, se consigue de manera sencilla ya que se trata de una matriz cuadrada e invertible, por lo que se podrá calcular su inversa: $W_{NxN}$, denominada matriz de separación. De esta manera, se conseguirá las componentes independientes mediante:
+
+\begin{equation}
+	S_{NxM} = W_{NxN} ·  X_{NxM}
+\end{equation}
+\\
+La matriz $W_{NxN}$ estará compuesta por componentes independientes en cada columna que conforman la matriz. Estas columnas serán representadas topográficamente sobre el mapa de sensores (ver imagen \ref{fig:mapaacticap_img}). En cada uno de los mapas, los colores indican la afectación de cada canal por la componente independiente. Dado que ICA, presenta ambigüedad de signo, tanto el color azul como rojo, indican un valor alto del peso del canal si se trata de un color fuente, en cambio, si son colores claros, indican valores del peso más bajos.
+
+\newpage
+\section{Densidad espectral de potencia}
+\label{sec:dep}
+
+La Densidad Espectral de Potencia (DEP) de una señal es una función matemática que proporciona la distribución de la potencia sobre las distintas frecuencias donde esté comprendida. El espectro de potencia de una señal estacionaria está definida por la ecuación \eqref{tf}, donde $r_x(k)$ denota la función de correlación \cite{Sornmo}:
+
+\label{correlacion}
+\begin{equation}
+	r_{x}(k) = E[x(n)x(n-k)]
+\end{equation}
+
+\label{tf}
+\begin{equation}
+	S_{x}(e^{j\omega}) = \sum_{k=- \infty}^\infty r_{x}(k)e^{-j\omega k}
+\end{equation}
+
+Si se combina la definición del espectro de potencia con la estimación de la función de correlación, se obtiene una estimación del espectro de potencia, la cual se denomina periodograma:
+
+\label{periodograma}
+\begin{equation}
+	\hat{S}_{x}(e^{j\omega}) = \sum_{k=-N+1}^{N-1} \hat{r}_{x}(k)e^{-j\omega k}
+\end{equation}
+
+Expresando $S_{x}$ como una convolución de la señal de estudio, x(n), y su invertida, se expresa la estimación de la DEP en función de la Transformada de Fourier (TF):
+
+\label{periodogramaTF}
+\begin{equation}
+	\hat{S}_{x}(e^{j\omega}) = \frac{1}{N}|X(e^{j\omega})|^ 2 = \frac{1}{N} |\sum_{n=0}^{N-1} x(n)e^{-j\omega n}|^2
+\end{equation}
+
+A continuación se muestran las modificaciones más importantes \cite{estimacionespectral}:
+
+\begin{itemize}
+	\item \textbf {Periodograma Modificado}. El objetivo del periodograma modificado es solucionar el problema de enmascaramiento espectral producido por el periodograma. Se produce por la  amplitud de los lóbulos secundarios de ventana rectangular que aparecen en el espacio de frecuencia. Las ventanas comunmente utilizadas son la de Hamming, Hann o Blackman. Al aplicar una de las ventanas citadas, se mejora la fuga de potencias a otras bandas de frecuencia donde la señal no refleja datos (leakage). Como consecuencia, la resolución espectral disminuye.
+	
+	\begin{figure}[htb]
+		\centering
+		\includegraphics[width=0.9\textwidth]{./img/ventanaperioodograma}
+		\caption{Tipos de ventana para periodogramas.} \label{fig:ventanaperiodograma_img}
+	\end{figure}
+	\newpage
+	\item \textbf {Método de Bartlett}. Este método realiza un promediado del periodograma,  reduciendo la variancia a costa de la resolución espectral.
+	Siendo K segmentos sin solape de longitud L (N=KL) de la señal $x(n)$ (ecuación \eqref{xn} ), se obtienen las estimaciones de los K periodogramas y se promedian, consiguiendo una estimación de la DEP consistente en varianza:
+	
+	\label{xn}
+	\begin{equation}
+		x_{i}(n) = x(n+iL), n=0,...,L-1; i=0,...,K-1
+	\end{equation}
+
+	\begin{equation}
+		V[\hat{S}_{x}(e^{j\omega})] = \frac{1}{K}V[\hat{S}_{x_{i}}(e^{j\omega})]
+	\end{equation}
+
+	\item \textbf {Método de Welch}. En este método se propone una modificación combinada entre el método de Bartlett y el periodograma modificado (o enventanado), en el que se reduce la varianza y el leakage a costa de que la resolución espectral disminuya
+	. En primer lugar, se permite el solapamiento de  datos (overlap) entre dos secuencias consecutivas. Suponiendo que  existe un desplazamiento de D puntos entre secuencias sucesivas y que cada secuencia consta de L muestras de longitud, se aplica a cada segmento de la señal $x(n)$, una ventana no cuadrada (método del periodograma modificado). Posteriormente, se aplica el promedio de los periodogramas de las $k$ estimaciones de cada segmento (método de Bartlett), consiguiendo, finalmente, la estimación de la DEP:
+	
+	
+	\begin{equation}
+		\hat{S}_{x}(e^{j\omega}) = \frac{1}{KLU}\ \sum_{i=0}^{K-1} |  \sum_{n=0}^{L-1}     x_{i}(n)w(n)e^{-j\omega n}|^2
+	\end{equation}
+\end{itemize}
+
+\afterpage{\blankpage}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% DISEÑO E IMPLEMENTACIÓN 
+
+\chapter{Experimentos y resultados}
+
+\section{Adquisición de los datos}
+\label{sec:adquisiciondatos}
+
+Los datos con los que se ha trabajado en este proyecto han sido recopilados gracias a la colaboración del alumnado del grado de Ingeniería en Sistemas Audiovisuales y Multimedia de la Universidad Rey Juan Carlos, durante el curso académico 2020/2021.
+
+Durante el experimento, los sujetos se colocan en una postura cómoda sobre una silla, en una situación de calma, relajados, sin mantener una conversación, pero con posibles distracciones a su alrededor.  El registro de señales EEG se realiza mediante la colocación del casco $actiCAP$ $Xpress$ (véase la sección \ref{subsubsec:cascos}) en el voluntario.  La grabación de estas señales se han registrado durante un período de 40 segundos aproximadamente.
+
+Los datos recogidos se distribuyen en tres carpetas, cada una de ellas dedicada a cada uno de los sujetos. Estas carpetas constan de tres archivos: 
+
+\begin{itemize}
+	\item \textit {.eeg}: contiene las muestras de la señal EEG de los 32 canales,
+	\item \textit {.vhdr}: incluye la cabecera de la señal EEG con información de los 32 canales, frecuencia de muestreo ...,
+	\item \textit {.vmkr}: contiene información sobre los eventos, como por ejemplo inicio y fin de la actividad. 
+\end{itemize}
+
+\newpage
+En la primera parte del $notebook$ \cite{repositorio} de cada sujeto se encuentra la extracción de estos ficheros.
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.7\textwidth]{./img/ficheros}
+	\caption{Archivos - Sujeto 1.} \label{fig:ficheros_img}
+\end{figure}
+
+Como ejemplo de cada una de las secciones que se listan a continuación, se emplean los datos obtenidos del $Sujeto$ $1$. En los anexos puede encontrarse la información relacionada con el resto de sujetos.
+
+El objeto Raw de este primer sujeto consta de 19.690 muestras de tiempo, tomadas con una frecuencia de muestreo de 500 Hz, obtenidas a partir de 31 canales de EEG. En las figuras \ref{fig:fp1originaltiempo_img} y \ref{fig:sujetounotiempo_img}, se muestra la representación temporal del canal Fp1 y de los 31 canales de la señal original sin tratar, respectivamente.
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.7\textwidth]{./img/fp1originaltiempo}
+	\caption{Representación temporal del canal EEG: Fp1 - Sujeto 1.} \label{fig:fp1originaltiempo_img}
+\end{figure}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.7\textwidth]{./img/sujetounotiempo}
+	\caption{Representación temporal de los canales EEG - Sujeto 1.} \label{fig:sujetounotiempo_img}
+\end{figure}
+
+\newpage
+
+Para generar las siguientes representaciones, se ha calculado previamente la DEP de cada uno de los canales:
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.7\textwidth]{./img/fp1originalespectro}
+	\caption{Representación espectral del canal EEG: Fp1 - Sujeto 1.} \label{fig:fp1originalespectro_img}
+\end{figure}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.7\textwidth]{./img/sujetounoespectro}
+	\caption{Representación espectral de los canales EEG - Sujeto 1.} \label{fig:sujetounoespectro_img}
+\end{figure}
+
+\newpage
+
+\section{Pre-procesamiento de las señales EEG}
+\label{sec:preprocesamiento}
+
+El filtrado de señales en este trabajo tiene como finalidad la eliminación del ruido presente en las señales EEG obtenidas en el apartado anterior. El ruido generado puede proceder de distintas fuentes biológicas o tecnológicas.
+
+Como se ha podido observar en la representaciones del apartado anterior, estas señales poseen una cantidad de ruido considerable y para realizar el procesamiento de las mismas se han realizado pruebas con los distintos tipos de filtrado listados a continuación.
+
+\subsection{Experimentos con filtrado paso banda}
+\label{subsec:expfiltropasobanda}
+
+La mayor parte del contenido espectral se encuentra en un rango entre 0.5 y 30-40 Hz, por lo que es frecuente eliminar el contenido espectral que sea superior a este rango de frecuencias. El primer filtro aplicado en este experimento es un BPF, diseñado con frecuencia inferior de 2 Hz y frecuencia superior de 42 Hz mediante la función $signal.firwin$ de $Scipy$ \cite{scipy.signal.firwin}.
+
+En esta función se especifica que el filtrado sea tipo FIR, se utilice una ventana de tipo Hamming y el valor de la longitud del filtro ($numtaps$) sea 100. En la figura \ref{fig:depfbpsujeto1_img} se representa el diagrama de Bode, mostrando la respuesta en amplitud y fase obtenidos con los parámetros definidos:
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.7\textwidth]{./img/fpbamplitudyfasesujeto1}
+	\caption{Diagrama de Bode del BPF con $f_{i}$ = 0.5 Hz y $f_{s}$ = 42 Hz - Sujeto 1.} \label{fig:fpbamplitudyfasesujeto1_img}
+\end{figure}
+
+\newpage
+En las figuras \ref{fig:tiempofbpsujeto1_img} y \ref{fig:depfbpsujeto1_img} se muestra el resultado del filtrado FPB de la señal EEG en tiempo y frecuencia. En la representación temporal se observa un trazado más fino que en la representación de la señal original, además en la representación espectral, aún puede apreciarse un pico de frecuencia centrado en 50 Hz que será eliminado en la siguiente fase de filtrado.
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.7\textwidth]{./img/tiempofbpsujeto1}
+	\caption{Representación temporal de los canales EEG filtrados con FPB - Sujeto 1.} \label{fig:tiempofbpsujeto1_img}
+\end{figure}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.7\textwidth]{./img/depfbpsujeto1}
+	\caption{Representación espectral de los canales EEG filtrados con FPB - Sujeto 1.} \label{fig:depfbpsujeto1_img}
+\end{figure}
+
+
+\subsection{Experimentos con filtrado Notch}
+\label{subsec:expfiltroeliminabanda}
+
+Como se muestra en la figura \ref{fig:depfbpsujeto1_img}, aún puede observarse un pico de frecuencias centrado en 50 Hz, relacionado con la interferencia producida por la red eléctrica. Para eliminarlo se ha utilizado el filtrado tipo Notch, ya que de esta manera se atenuará esta parte de la señal en la frecuencia especificada.
+
+En esta ocasión, se ha utilizado un filtro de segundo orden tipo IIR diseñado mediante la función $signal.iirnotch$ de $Scipy$ \cite{scipy.signal.irrnotch} con los parámetros de frecuencia a eliminar igual a 50 Hz y factor de calidad igual a 30. En la figura \ref{fig:depnotchsujeto1_img} se representa el diagrama de Bode, mostrando la respuesta en amplitud y fase obtenidos con los parámetros definidos:
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.7\textwidth]{./img/notchamplitudyfasesujeto1}
+	\caption{Diagrama de Bode del filtrado Notch con $f_{0}$ = 50 Hz - Sujeto 1.} \label{fig:notchamplitudyfasesujeto1_img}
+\end{figure}
+
+\newpage
+En las figuras \ref{fig:tiemponotchsujeto1_img} y \ref{fig:depnotchsujeto1_img} se muestra el resultado del filtrado FPB y Notch de la señal EEG en tiempo y frecuencia. En la representación frecuencial, se aprecia como tras aplicar este tipo de filtrado se ha eliminado el pico de frecuencias a 50 Hz, sin alterar el resto de frecuencias.
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.7\textwidth]{./img/tiemponotchsujeto1}
+	\caption{Representación temporal de los canales EEG filtrados con FPB y Notch - Sujeto 1.} \label{fig:tiemponotchsujeto1_img}
+\end{figure}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.7\textwidth]{./img/depnotchsujeto1}
+	\caption{Representación espectral de los canales EEG filtrados con FPB y Notch - Sujeto 1.} \label{fig:depnotchsujeto1_img}
+\end{figure}
+
+\newpage
+\subsection{Experimentos con ICA}
+\label{subsec:filtradoavanzado}
+
+Como último paso del pre-procesamiento de la señal EEG, se aplica el algoritmo ICA. Este algoritmo se implementa en el código python mediante la función $preprocessing.ICA$ del paquete $MNE$ \cite{mne}. Se definen distintos parámetros como el número de componentes ($n\_componentes$) principales que se utilizarán para la extracción de componentes independientes. Si $n\_componentes$ es igual al número de canales EEG, no se realizará reducción de dimensionalidad ya que se utilizarán todas las componentes principales. En cambio, si es menor que el número de observaciones, se produce una reducción de la dimensionalidad al producirse la extracción de componentes independientes. Mediante el parámetro $method$, pueden utilizarse los distintos métodos $FastICA$, $Infomax$ o $Picard$, siendo utilizado en este proyecto el método por defecto $fastICA$. Con el siguiente parámetro definido se indica la reproducibilidad de los resultados obtenidos ($random\_state = 1$).
+
+En las siguientes imágenes se evalúan los efectos de aplicar ICA con 31 componentes, ya que no se conocen el número de fuentes independientes.
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.7\textwidth]{./img/ICAsujeto1}
+	\caption{Componentes independientes obtenidas por ICA con 31 componentes - Sujeto 1.} \label{fig:ICAsujeto1_img}
+\end{figure}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.8\textwidth]{./img/topoICAsujeto1}
+	\caption{Representación topográfica de las componentes independientes - Sujeto 1.} \label{fig:topoICAsujeto1_img}
+\end{figure}
+\clearpage
+
+Para poder interpretar las componentes extraídas por ICA debe realizarse de manera conjunta con las representaciones \ref{fig:ICAsujeto1_img} y \ref{fig:topoICAsujeto1_img}. En este caso, los sujetos se encontraban en un estado de calma con los ojos cerrados sin realizar ningún tipo de acción como visualizar contenidos o mantener una conversación, por ello en la representación topográfica de las componentes independientes no se observa alguna componente que deba ser descartada.
+
+En caso de que alguna de las componentes independientes tuvieran que ser descartadas, posteriormente se realizaría la reconstrucción de la señal original sin dichas componentes, es el caso del sujeto 3 y las componentes 17, 28 y 29, donde se observan eventos abruptos y podría tratarse de artefactos:
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.7\textwidth]{./img/ICAsujeto3-17-28-29}
+	\caption{Componentes independientes obtenidas por ICA con 31 componentes (componentes 17, 28 y 28) - Sujeto 3.} \label{fig:ICAsujeto3172829_img}
+\end{figure}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.7\textwidth]{./img/topoICAsujeto3-17-28-29}
+	\caption{Representación topográfica de las componentes independientes (componentes 17, 28 y 29) - Sujeto 3.} \label{fig:topoICAsujeto3172829_img}
+\end{figure}
+
+
+En la figura \ref{fig:ICA-comparativasj3_img}, se puede observar la representación comparativa entre la señal procesada por filtros lineales (imagen superior) y la representación de la señal procesada por filtros lineales e ICA con la extracción manual de las componentes seleccionadas 17, 28 y 29 (imagen inferior):
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.7\textwidth]{./img/ICA-comparativasj3.png}
+	\caption{Comparación de la señal filtrada FPB + Notch y de la señal filtrada con FPB, Notch e ICA tras la extracción de componentes 17, 28 y 29 - Sujeto 3.} \label{fig:ICA-comparativasj3_img}
+\end{figure}
+
+\newpage
+\section{Cálculo y representación de la señal espectral de potencia}
+\label{sec:psd}
+
+El último objetivo de este trabajo se centraba en la obtención de la densidad espectral de potencia de las señales EEG y su posterior representación sobre un mapa topográfico cerebral. Para llevar a cabo dicho objetivo, se han utilizado distintas funciones tanto del repositorio de $MNE$ como de $FOOOF$ \cite{FOOF}:
+
+En primer lugar, se calcula la densidad espectral de potencia utilizando el método de Welch a través de la función $psd\_welch$ de $MNE$ con un tipo de ventana $hamming$ y promediando posteriormente cada uno de los canales. Después, se da paso a modelar este grupo de espectros utilizando $FOOOFGroup$, indicando los valores por defecto de esta función \cite{FOOOFGroup}. Antes de continuar con la representación topográfica, hay que tener en cuenta que al extraer bandas de interés, no hay garantía de que el modelo detecte picos en un rango determinado ya que puede ser que sus valores sean nanométricos, para lidiar con ellos se define una función \cite{check_nans} para comprobar valores nanométricos y aplicar una política especifica sobre como tratarlos.
+
+Una vez que se ajusta el modelo de espectro a todos los canales ($.fit(freqs, spectra, freq\_range)$ de $FOOOFGroup$) y se definen las bandas de frecuencia de interés (delta, theta, alpha, beta y gamma), se extraen los picos de cada una de estas bandas de frecuencia para posteriormente extraer la potencia de cada uno de ellos. Una vez aplicado estos pasos, se procede a la representación de potencia en las distintas bandas de frecuencia según la ubicación del canal.
+
+Como se puede observar en la figura \ref{fig:mapatopograficodep_img}, tanto en el rango de las bandas de frecuencia delta y gamma no se representan datos, ya que como se indicaba en la sección \ref{subsec:tiposondas} las ondas deltas se encuentran durante la etapa de sueño profundo mientras que las ondas gamma se asocian con momentos de mayor actividad cerebral o extrema concentración. Al encontrarse los voluntarios ante un estado de calma, las representación que más datos aportan son la potencia en theta, alpha y beta.
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=1\textwidth]{./img/mapatopograficodep}
+	\caption{Representación topográfica de la densidad espectral de potencia de cada una de las bandas de frecuencia - Sujeto 1.} \label{fig:mapatopograficodep_img}
+\end{figure}
+\newpage
+Los colores que se muestran en las representaciones de potencia de theta, alpha y beta, están mapeados al mapa de colores viridis, asociando el color azul oscuro a valores bajos de potencia y el amarillo a altos valores.
+
+
+\afterpage{\blankpage}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% CONCLUSIONES 
+\chapter{Conclusiones y líneas futuras}
+\label{chap:conclusionesylineasfuturas}
+
+\section{Conclusiones}
+\label{sec:conclusiones}
+
+Tras la elaboración de este proyecto, se han obtenido las siguientes conclusiones:
+
+\begin{itemize}
+	\item Facilitar a docentes y alumnado el uso del software $Recorder$ elaborando un manual de usuario adaptado al hardware disponible en el laboratorio y al software de registro de señales EEG.
+	\item Realizar un preprocesado en las señales EEG es esencial para un correcto tratamiento y extracción de datos a posteriori.
+	\item Aplicar filtrado básico lineal a las señales EEG para realizar filtrado ICA posteriormente, es esencial para eliminar el contenido espectral no necesario para la extracción de datos de estas señales y eliminar las interferencias producidas por la red eléctrica.
+	\item La técnica ICA tiene una gran dificultad de interpretabilidad de los datos obtenidos tras su aplicación, aunque permite la extracción de componentes independientes para facilitar el estudio de la señal.
+	\item La obtención y representación de la densidad espectral de potencia es esencial para conocer la distribución de la potencia sobre las distintas frecuencias de las que esta formada en distintas situaciones a las que se exponen los sujetos.
+\end{itemize}
+
+\newpage
+\section{Líneas futuras}
+\label{sec:lineasfuturas}
+
+A partir de los resultados obtenidos y de las preguntas formuladas durante la ejecución de este trabajo, se plantean las siguientes líneas futuras de trabajo:
+
+\begin{itemize}
+	\item Recopilar muestras de un número mayor de voluntarios sobre los que grabar señales EEG para ampliar el estudio de la variación de la dep según el sujeto.
+	\item Utilizar la obtención y representación de la dep en distintos escenarios, como por ejemplo con patologías del sueño o visualización de videojuegos en los que también se capture el comportamiento visual a través de unas gafas de $eye-tracker$.
+	\item Valorar otras herramientas de programación como Matlab ya que tienen una mayor documentación disponible para el tratado de las señales EEG.
+	\item La obtención de otros índices para ampliar y mejorar el estudio de este tipo de señales. 
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% APÉNDICE(S) 
+
+\cleardoublepage
+\appendix
+\clearpage
+\addappheadtotoc
+\appendixpage
+
+\chapter{Configuración del amplificador}
+\label{app:amplificador}
+
+En nuestro caso, al tener conectado el amplificador actiCHamp a nuestro ordenador como se relata en \ref{subsec:primeravez}, tras pulsar \textit{Scan for Amplifiers}, aparecerá su configuración como se muestra en la siguiente imagen:
+
+\begin{figure}[htb]
+\centering
+\includegraphics[width=0.6\textwidth]{./img/confiampli}
+\caption{Configuración amplificador actiCHamp.} \label{fig:confiampli_img}
+\end{figure}
+
+En la parte superior izquierda, se especifica el número de canales detectados conectados en el casco (32 canales), como los auxiliares (8 canales). A continuación, debemos especificar distintos parámetros en el apartado \textit{Channels \textbackslash{Rate}}:
+
+\begin{enumerate}
+	\item \textit{Number of channels}: Insertaremos el número de canales que queremos que sean representados.
+	\item \textit{Reference channel}: Insertaremos el número del canal en el que esté situado el canal de referencia. Podemos utilizar cualquier otro canal como canal de referencia, por defecto, el programa utilizará el segundo canal. Revisar Apéndice \ref{app:poscasco} para encontrar la posición del electrodo de referencia.
+	\item \textit{Sampling Rate [Hz]}: Elegiremos la frecuencia de muestreo, siendo la mínima 100 Hz y la máxima dependerá de los canales que utilicemos:
+		\begin{enumerate}
+			\item 32 EEG + 8 AUX: 100kHz
+			\item 64 EEG + 8 AUX: 50kHz
+			\item 160 EEG + 8 AUX: 25 kHz
+		\end{enumerate}
+	\item \textit{Enable Active Shielding}: Activaremos este modo si necesitamos reducir las influencias que pueden afectar a nuestra medición o a los electrodos, como por ejemplo el ruido, el movimiento de los cables o interferencias eléctricas. Si queremos activar esta característica, activaremos el checkbox y se mostrará una nueva ventana donde seleccionaremos OK.
+
+\end{enumerate}
+
+Por otro lado, si quisiéramos utilizar los canales auxiliares para realizar mediciones extra, nos desplazaríamos al final de la ventana y los últimos ocho canales que aparecen en el listado representarían los canales auxiliares que tenemos que configurar:
+
+\begin{figure}[htb]
+\centering
+\includegraphics[width=0.6\textwidth]{./img/conficanalesaux}
+\caption{Configuración amplificador actiCHamp.} \label{fig:conficanalesaux_img}
+\end{figure}
+
+Definiremos los valores a introducir según un ejemplo de temperatura:
+\begin{enumerate}
+	\item \textit{Diff unit}: Seleccionaremos esta opción si utilizamos el canal para mediciones distintas a la temperatura que utilicen una unidad diferente a grados Celsius `C',
+	\item \textit{Unit}: definiremos la unidad en la que se medirán los datos recogidos,
+	\item \textit{Gradient}: este parámetro describirá la diferencia de voltaje, por ejemplo, en un cambio de temperatura de un grado Celsius. Introduciremos el gradiente en unidades mV/unidad de medida. Por ejemplo, para grados Celsius, introduciremos mV/C,
+	\item \textit{Offset}: define la zona cero, en nuestro ejemplo, este es el voltaje en mV que el sensor devuelve a una temperatura de 0 grados Celsius.
+\end{enumerate}
+
+\chapter{Posición de electrodos activos}
+\label{app:poscasco}
+A continuación de muestra un mapa con la posición de cada uno de los electrodos que se encuentran en los cascos actiCAP y actiCAP Express.
+\begin{figure}[htb]
+\centering
+\includegraphics[width=0.5\textwidth]{./img/mapaacticap}
+\caption{Configuración amplificador actiCHamp.} \label{fig:mapaacticap_img}
+\end{figure}
+
+Según su color:
+
+\begin{enumerate}
+	\item Verde: posiciones de los electrodos Ch1 - Ch32
+	\item Azul: electrodo de referencia,
+	\item Gris: GND.
+\end{enumerate}
+\chapter{Resultados obtenidos}
+\label{app:resutlados}
+
+\section{Sujeto 2}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.7\textwidth]{./img/fp1originaltiemposj2}
+	\caption{Representación temporal del canal EEG: Fp1 - Sujeto 2.} \label{fig:fp1originaltiemposj2_img}
+\end{figure}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.7\textwidth]{./img/sujeto2tiempo}
+	\caption{Representación temporal de los canales EEG - Sujeto 2.} \label{fig:sujeto2tiempo_img}
+\end{figure}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.7\textwidth]{./img/fp1originalespectrosj2}
+	\caption{Representación espectral del canal EEG: Fp1 - Sujeto 2.} \label{fig:fp1originalespectrosj2_img}
+\end{figure}
+
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.7\textwidth]{./img/sujeto2espectro}
+	\caption{Representación espectral de los canales EEG - Sujeto 2.} \label{fig:sujeto2espectro_img}
+\end{figure}
+
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.7\textwidth]{./img/tiempofbpsujeto2}
+	\caption{Representación temporal de los canales EEG filtrados con FPB - Sujeto 2.} \label{fig:tiempofbpsujeto2_img}
+\end{figure}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.7\textwidth]{./img/depfbpsujeto2}
+	\caption{Representación espectral de los canales EEG filtrados con FPB - Sujeto 2.} \label{fig:depfbpsujeto2_img}
+\end{figure}
+
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.7\textwidth]{./img/tiemponotchsujeto2}
+	\caption{Representación temporal de los canales EEG filtrados con FPB y Notch - Sujeto 2.} \label{fig:tiemponotchsujeto2_img}
+\end{figure}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.7\textwidth]{./img/depnotchsujeto2}
+	\caption{Representación espectral de los canales EEG filtrados con FPB y Notch - Sujeto 2.} \label{fig:depnotchsujeto2_img}
+\end{figure}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.7\textwidth]{./img/ICAsujeto2}
+	\caption{Componentes independientes obtenidas por ICA con 31 componentes - Sujeto 2.} \label{fig:ICAsujeto2_img}
+\end{figure}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.8\textwidth]{./img/topoICAsujeto2}
+	\caption{Representación topográfica de las componentes independientes - Sujeto 2.} \label{fig:topoICAsujeto2_img}
+\end{figure}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=1\textwidth]{./img/mapatopograficodepsj2}
+	\caption{Representación topográfica de la densidad espectral de potencia de cada una de las bandas de frecuencia - Sujeto 2.} \label{fig:mapatopograficodepsj2_img}
+\end{figure}
+
+\clearpage
+\section{Sujeto 3}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.7\textwidth]{./img/fp1originaltiemposj3}
+	\caption{Representación temporal del canal EEG: Fp1 - Sujeto 3.} \label{fig:fp1originaltiemposj3_img}
+\end{figure}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.7\textwidth]{./img/sujeto3tiempo}
+	\caption{Representación temporal de los canales EEG - Sujeto 3.} \label{fig:sujeto3tiempo_img}
+\end{figure}
+\newpage
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.7\textwidth]{./img/fp1originalespectrosj3}
+	\caption{Representación espectral del canal EEG: Fp1 - Sujeto 3.} \label{fig:fp1originalespectrosj3_img}
+\end{figure}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.7\textwidth]{./img/sujeto3espectro}
+	\caption{Representación espectral de los canales EEG - Sujeto 3.} \label{fig:sujeto3espectro_img}
+\end{figure}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.7\textwidth]{./img/tiempofbpsujeto3}
+	\caption{Representación temporal de los canales EEG filtrados con FPB - Sujeto 3.} \label{fig:tiempofbpsujeto3_img}
+\end{figure}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.7\textwidth]{./img/depfbpsujeto3}
+	\caption{Representación espectral de los canales EEG filtrados con FPB - Sujeto 3.} \label{fig:depfbpsujeto3_img}
+\end{figure}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.7\textwidth]{./img/tiemponotchsujeto3}
+	\caption{Representación temporal de los canales EEG filtrados con FPB y Notch - Sujeto 3.} \label{fig:tiemponotchsujeto3_img}
+\end{figure}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.7\textwidth]{./img/depnotchsujeto3}
+	\caption{Representación espectral de los canales EEG filtrados con FPB y Notch - Sujeto 3.} \label{fig:depnotchsujeto3_img}
+\end{figure}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.7\textwidth]{./img/ICAsujeto3}
+	\caption{Componentes independientes obtenidas por ICA con 31 componentes - Sujeto 3.} \label{fig:ICAsujeto3_img}
+\end{figure}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.8\textwidth]{./img/topoICAsujeto3}
+	\caption{Representación topográfica de las componentes independientes - Sujeto 3.} \label{fig:topoICAsujeto3_img}
+\end{figure}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.7\textwidth]{./img/ICAsujeto3-post}
+	\caption{Representación temporal de los canales EEG tras la extracción de las componentes ICA 17, 28 y 29 - Sujeto 3.}\label{fig:ICAsujeto3-postsj3_img}
+\end{figure}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=1\textwidth]{./img/mapatopograficodepsj3}
+	\caption{Representación topográfica de la densidad espectral de potencia de cada una de las bandas de frecuencia - Sujeto 3.} \label{fig:mapatopograficodepsj3_img}
+\end{figure}	
+
+\afterpage{\blankpage}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% BIBLIOGRAFIA 
+
+\begin{thebibliography}{0}
+  \bibitem{PrincipiosNeurociencia} Jessell, Thomas M., Eric R. Kandel, and James Hed Schwartz. $``$Principios de Neurociencia.$"$ No. 577.25 KAN. 2001.
+  \bibitem{Neurocienciaaplicada} Cardinali, Daniel P. $``$Neurociencia Aplicada/Applied Neuroscience: Sus Fundamentos/It's Fundamentals$"$. Ed. Médica Panamericana, 2007.
+  \bibitem{Tecnicasbasicas} Ramos-Argüelles, F., et al. $``$Técnicas básicas de electroencefalografía: principios y aplicaciones clínicas.$"$ Anales del sistema sanitario de Navarra. Vol. 32. Gobierno de Navarra. Departamento de Salud, 2009.
+  \bibitem{Sornmo} Sörnmo, Leif, and Pablo Laguna. $``$Bioelectrical signal processing in cardiac and neurological applications$"$. Vol. 8. Academic Press, 2005.
+  \bibitem{HansBerger} Hans Berger - Complete Dictionary of Scientific Biography. - Encyclopedia.com
+  \bibitem{weblifeder}Electroencefalograma: historia, funcionamiento y ondas - https://www.lifeder.com/electroencefalograma/
+  \bibitem{mapeo} Novo, C., L. Chacón, and J. A. Barradas. $``$Mapeo electroencefalográfico y neurofeedback.$"$ Guevara MA. Aproximaciones al estudio de la neurociencia del comportamiento [Internet]. Ciudad de México: Universidad Autónoma Metropolitana (2010).
+  \bibitem{weblatencias} Patologias del sueño - https://doctorferre.com
+  \bibitem{webicsd} ICSD-2 -http://scielo.isciii.es/
+  \bibitem{epworth} Gomar, Fermín M. Zubiaur, Juan Antonio Sordo Pérez, and Belén Moscoso Jaramillo. $``$Significado clínico y utilidad de la escala de Epworth: nueva propuesta de tratamiento para el paciente con síndrome de apnea obstructiva del sueño.$"$ Anales de Otorrinolaringología Mexicana. Vol. 52. No. 4. 2007.
+  \bibitem{circadiano} ASENARCO, Asociación Española del Sueño -  Trastornos del ritmo circadiano del sueño.
+  \bibitem{anestesia} García-Colmenero, Irma Guadalupe, et al. $``$Electroencefalografía para el anestesiólogo, consideraciones clínicas.$"$ Revista Mexicana de Anestesiología 41.S1 (2018): 39-43.
+  \bibitem{manualrecorder} BrainVision Recorder: User Manual - www.brainproducts.com.
+  \bibitem{firvsiir} Difference between IIR and FIR filters: a practical design guide.
+  \bibitem{digitalfilterdesing} Widmann, Andreas, Erich Schröger, and Burkhard Maess. $``$Digital filter design for electrophysiological data -- a practical approach.$"$ Journal of neuroscience methods 250 (2015): 34-46.
+  \bibitem{filtronotch-pbf} Filtros Notch para ECG y EEG - Lina María Toquica Ramirez, Jairo Fernando Ávila Viatela.
+  \bibitem{cloclear} Trejo-Alcantara, G., and N. Castañeda-Villa. $``$Effect of EEG pre-processing on Independent Component Analysis: reduction of cochlear implant artifact in Auditory Evoked Potentials.$"$ Revista mexicana de ingeniería biomédica 38.1 (2017): 382-389.
+  \bibitem{analisisICA} MUNOZ, J., J. RIVERA, and E. DUQUE. $``$Principal and independent component analysis applied to noise reduction in electrocardiographic signals.$"$ Scientia et Technica 39 (2008): 83-88.
+  \bibitem{separacionciega} Yu, X., Hu, D., \& Xu, J. (2013). $``$Blind source separation: theory and applications.$"$ John Wiley \& Sons.
+  \bibitem{estimacionespectral} Manuel José Rios Aguaded. $``$Análisis espectral multivariable aplicado a señales cerebrales reales (EEG)$"$ (2019)
+  \bibitem{mne} MNE - https://mne.tools
+  \bibitem{repositorio} Castejón, M. $``$Repositorio TFG Marta Castejón$"$ Julio 2021 https://github.com/mc4st/TFGMartaCastejon2021.git
+  \bibitem{scipy.signal.firwin} scipy.signal.firwin - https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.firwin.html
+  \bibitem{scipy.signal.irrnotch} scipy.signal.irrnotch - https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.iirnotch.html
+  \bibitem{FOOF} https://fooof-tools.github.io/
+  \bibitem{FOOOFGroup} https://fooof-tools.github.io/fooof/generated/fooof.FOOOFGroup.html
+  \bibitem{check_nans} https://fooof-tools.github.io/fooof/auto\_examples/analyses/plot\_mne\_example.html
+ 
+\end{thebibliography}
+\afterpage{\blankpage}
+
+\end{document}
