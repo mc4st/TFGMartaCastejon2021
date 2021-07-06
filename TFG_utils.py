@@ -41,7 +41,7 @@ def get_dep_channel(datos_signal,fs,i):
     potencia_por_canal = []
     for num in range(0,num_canales):
         f,Px=signal.periodogram(datos[i], fs, window='hamming')
-        potencia_por_canal.append(sum(Px))    
+        potencia_por_canal.append(sum(Px)*f[1])    
         idx = []
         for cont in f:
             if cont>0:
@@ -65,17 +65,25 @@ def get_dep_channel_bandas(datos_signal,fs):
     
     for i in range(0,num_canales):
         f,Px=signal.periodogram(datos[i], fs, window='hamming')
-        potencia_por_canal.append(sum(Px))
-        
+        indice_Px = []
+        for j in f:
+            if j>0.5 and j<40:
+                indice_Px.append(True)
+            else:
+                indice_Px.append(False)
+        id_Px = sum(Px[indice_Px]*f[1])
+        potencia_por_canal.append(id_Px)
+
+                
         #BANDA DELTA
         
         indice_delta = []
         for j in f:
-            if j<4:
+            if j>3 and j<4:
                 indice_delta.append(True)
             else:
                 indice_delta.append(False)
-        delta = sum(Px[indice_delta])
+        delta = sum(Px[indice_delta]*f[1])
         potencia_banda_delta.append(delta)
         
         #BANDA THETA
@@ -86,40 +94,40 @@ def get_dep_channel_bandas(datos_signal,fs):
                 indice_theta.append(True)
             else:
                 indice_theta.append(False)
-        theta = sum(Px[indice_theta])
+        theta = sum(Px[indice_theta]*f[1])
         potencia_banda_theta.append(theta)
         
         #BANDA ALPHA
         
         indice_alpha = []
         for j in f:
-            if j>8 and j<13:
+            if j>7 and j<13:
                 indice_alpha.append(True)
             else:
                 indice_alpha.append(False)
-        alpha = sum(Px[indice_alpha])
+        alpha = sum(Px[indice_alpha]*f[1])
         potencia_banda_alpha.append(alpha)
         
         #BANDA BETA
         
         indice_beta = []
         for j in f:
-            if j>14 and j<30:
+            if j>13 and j<30:
                 indice_beta.append(True)
             else:
                 indice_beta.append(False)
-        beta = sum(Px[indice_beta])
+        beta = sum(Px[indice_beta]*f[1])
         potencia_banda_beta.append(beta)
         
         #BANDA GAMMA
         
         indice_gamma = []
         for j in f:
-            if j>30 and j<45:
+            if j>30 and j<40:
                 indice_gamma.append(True)
             else:
                 indice_gamma.append(False)
-        gamma = sum(Px[indice_gamma])
+        gamma = sum(Px[indice_gamma]*f[1])
         potencia_banda_gamma.append(gamma)
         
     return potencia_por_canal, potencia_banda_delta, potencia_banda_theta, potencia_banda_alpha, potencia_banda_beta, potencia_banda_gamma, f, Px
